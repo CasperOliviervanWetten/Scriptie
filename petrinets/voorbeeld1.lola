@@ -1,0 +1,10 @@
+PLACE pl3, pl7, pl8, pl17;
+TRANSITION tr4
+CONSUME  pl7: 1;
+PRODUCE  pl3: 1, pl8: 1;
+TRANSITION tr14
+CONSUME  pl8: 1;
+PRODUCE  pl7: 1, pl17: 1;
+TRANSITION tr19
+CONSUME  pl3: 1, pl17: 1;
+PRODUCE  pl8: 1;
