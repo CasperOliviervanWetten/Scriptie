@@ -24,15 +24,33 @@ use Exception;
 use PDO;
 
 class PetrinetRepository extends AbstractRepository {
+    private $printer;
 
-    public function __construct() {
-        $this->printer = new Printer;
+    public function __construct(PDO $db, Printer $printer) {
+        parent::__construct($db);
+        $this->printer = $printer;
     }
 
     public function getPetrinet($id): ?IPetrinet {
         if (!$this->petrinetExists($id)){return NULL;}
         $builder = new PetrinetBuilder();
         $builder->addPlaces($this->getPlaces($id));
+
+        $this->printer->terminalLog("Dit zijn alle plaatsen!");
+        foreach ($this->getPlaces($id) as $place){
+            $this->printer->terminalLog($place);
+        }
+
+        $this->printer->terminalLog("De transities zijn hier?");
+        foreach ($this->getTransitions($id) as $place){
+            $this->printer->terminalLog($place);
+        }
+
+        $this->printer->terminalLog("Een flow ziet er zo uit 0_o");
+        foreach ($this->getFlows($id) as $place){
+            $this->printer->terminalLog($place);
+        }
+
         $builder->addTransitions($this->getTransitions($id));
         $builder->addFlows($this->getFlows($id));
         $petrinet = $builder->getPetrinet();
@@ -78,22 +96,14 @@ class PetrinetRepository extends AbstractRepository {
         return $statement->fetchAll();
     }
 
-    public function saveMarkedPetrinet(
-        IPetrinet $pet,
-        ?IMarking $marking,
-        $user,
-        ?string $name=NULL
-    ): MarkedPetrinetRegisteredResult {
+    public function saveMarkedPetrinet(IPetrinet $pet, ?IMarking $marking, $user, ?string $name=NULL): 
+    MarkedPetrinetRegisteredResult {
         $petrinetId = $this->savePetrinet($pet, $user, $name);
         $markingId = $this->saveMarking($marking, $petrinetId);
         return new MarkedPetrinetRegisteredResult($petrinetId, $markingId);
     }
 
-    public function savePetrinet(
-        IPetrinet $petrinet,
-        $user,
-        ?string $name=NULL
-    ): int {
+    public function savePetrinet(IPetrinet $petrinet, $user, ?string $name=NULL): int {
         $this->db->beginTransaction();
         if (is_null($name))
             $name = sprintf("%s-%s", $user, date("Y-m-d-H:i:s"));

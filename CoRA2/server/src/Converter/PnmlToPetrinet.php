@@ -2,6 +2,8 @@
 
 namespace Cora\Converter;
 
+use Cora\Utils\Printer;
+
 use Cora\Domain\Petrinet\PetrinetBuilder;
 use Cora\Domain\Petrinet\Place\Place;
 use Cora\Domain\Petrinet\Transition\Transition;
@@ -14,16 +16,17 @@ use Exception;
 
 class PnmlToPetrinet extends Converter {
     protected $pnml;
+    protected $printer;
 
     public function __construct(string $pnml) {
         $this->pnml = $pnml;
+        $this->printer = new Printer;
     }
 
     public function convert() {
         //Initialize the DOMElement, SimpleXMLElement (used for Xpath) and the Petrinet Builder
         $doc = new \DOMDocument();
         $doc->loadXML($this->pnml);
-        $sxml = simplexml_load_string($this->pnml);
         $builder = new PetrinetBuilder();
 
         //Check if there are multiple pages
@@ -43,9 +46,9 @@ class PnmlToPetrinet extends Converter {
             $positionY = $place->getElementsByTagName('position')->item(0)->getAttribute('y');    
             $coordinates = array($positionX, $positionY);
             //get the text via xpath
-            $text = (string) $sxml->xpath("//transition[@id=$id]/place/name/text");            
+            $text = $place->getElementsByTagName('text')[0]->nodeValue;
             //add the place
-            $builder->addPlace(new Place($id, $coordinates, $text[0]));
+            $builder->addPlace(new Place($id, $coordinates, $text));
         }
 
 
@@ -75,8 +78,8 @@ class PnmlToPetrinet extends Converter {
             $positionX = $place->getElementsByTagName('position')->item(0)->getAttribute('x');
             $positionY = $place->getElementsByTagName('position')->item(0)->getAttribute('y');    
             $coordinates = array($positionX, $positionY);
-            //get the text via xpath
-            $text = (string) $sxml->xpath("//place[@id=$id]/place/name/text");            
+            //get the text 
+            $text = $place->getElementsByTagName('text')[0]->nodeValue;
             //add the transition
             $builder->addTransition(new Transition($id, $coordinates, $text));
         }
