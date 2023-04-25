@@ -3,6 +3,7 @@
 namespace Cora\Repository;
 
 use Cora\Utils\Printer;
+use Cora\Utils\PdoDebug;
 
 use Cora\Domain\Petrinet\PetrinetInterface as IPetrinet;
 use Cora\Domain\Petrinet\PetrinetBuilder as PetrinetBuilder;
@@ -25,11 +26,13 @@ use PDO;
 
 class PetrinetRepository extends AbstractRepository {
     private $printer;
+    private $pdoD;
 
     public function __construct(PDO $db, Printer $printer) {
         parent::__construct($db);
         $this->printer = $printer;
-    }
+        $this->pdoD = new PdoDebug;
+    } 
 
     public function getPetrinet($id): ?IPetrinet {
         if (!$this->petrinetExists($id)){return NULL;}
@@ -211,44 +214,45 @@ class PetrinetRepository extends AbstractRepository {
         return $flowMap;
     }
 
-    protected function savePlaces(IPetrinet $petrinet, int $id) {
-        // Retrieve places from the petrinet
+    protected function savePlaces(IPetrinet $petrinet, int $pid) {
+        //Get all places
         $places = $petrinet->getPlaces();
-        // Grab values to load into database: implode (join) some array computed by a mapping
-        $values = implode(
-            ", ", // join with a comma and space
-            array_map (
-                // Function to call on each element of the array given
-                function($place) {
-                    // Return a formatted string
-                    return sprintf (
-                        "(id:%s, label:%s, coords:%s)",
-                        $place->getID(),
-                        $place->getLabel(), 
-                        // coordinates is an array, so we join it with a comma (implode())
-                        // Then we add a ( in front and ) afterwards using string concatenation 
-                        // "a"."b" --> "ab"
-                        "(".implode(",", $place->getCoordinates()).")"
-                    );
-                },
-                // Array to call function on for each element
-                $places->toArray()
-            )
-        );
-        $query = sprintf("INSERT INTO %s (`petrinet`, `name`, `label`, `coordinates`) VALUES %s",
+        //Create the query placeholder
+        $values = implode(", ", array_map(function($place) {
+            return sprintf("(:pid, :%sname, :%slabel, :%scoordX, :%scoordY)", 
+            $place->getID(),
+            //Replace all ' ' items in the string with '_'
+            preg_replace('/\s+/', '_', $place->getLabel()),
+            //Get the individual coords, and cut them off after the .
+            strstr($place->getCoordinates()[0], '.', true),           
+            strstr($place->getCoordinates()[1], '.', true)           
+            ); 
+            }, 
+            $places->toArray()));
+
+        //Write the query
+        $query = sprintf("INSERT INTO %s (`petrinet`, `name`, `label`, `coordX`, `coordY`) VALUES %s",
                          $_ENV['PETRINET_PLACE_TABLE'], $values);
-                         
-        $this->printer->terminalLog("Dit is de query wat de plaatsen opslaat");
-        $this->printer->terminalLog($values);
-        $this->printer->terminalLog($query);
 
         $statement = $this->db->prepare($query);
-        // TODO: Check how params are bound; how to retrieve from new $values
-        $statement->bindParam(":pid", $id, PDO::PARAM_INT);
+        //Bind the $pid (petrinet ID number) to the query
+        $statement->bindParam(":pid", $pid, PDO::PARAM_INT);
+        
+        //For each place in the array of places, grab each individual attribute (and the split coords) in the
+        //same format as above, and bind them to their own query
+        foreach($places as $place){
+            $statement->bindValue(sprintf(":%sname", $place->getID()), $place->getID(), PDO::PARAM_STR);
+            $underscoredLabel = preg_replace('/\s+/', '_', $place->getLabel());
+            $statement->bindValue(sprintf(":%slabel", $underscoredLabel), $underscoredLabel, PDO::PARAM_STR);
+            $coordX = strstr($place->getCoordinates()[0], '.', true);
+            $statement->bindValue(sprintf(":%scoordX", $coordX), $coordX, PDO::PARAM_STR);
+            $coordY = strstr($place->getCoordinates()[1], '.', true);
+            $statement->bindValue(sprintf(":%scoordY", $coordY), $coordY, PDO::PARAM_STR);
+        }        
 
-        foreach($places as $place)
-            $statement->bindValue(sprintf(":%sname", $place), $place, PDO::PARAM_STR);
         $statement->execute();
+
+
     }
 
     protected function saveTransitions(IPetrinet $petrinet, int $id) {
