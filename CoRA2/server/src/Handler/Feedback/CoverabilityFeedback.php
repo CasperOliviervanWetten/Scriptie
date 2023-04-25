@@ -30,11 +30,6 @@ class CoverabilityFeedback extends AbstractHandler {
                 $request, "No session id provided");
 
         $graph = $parsedBody["graph"] ?? NULL;
-        foreach ($graph as $state){
-            // $printer->terminalLog(gettype($state));
-            foreach ($state as $value)
-                $printer->terminalLog(implode(", ", $value));
-        }
         if (is_null($graph))
             throw new HttpBadRequestException(
                 $request, "No graph provided");

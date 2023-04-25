@@ -66,9 +66,6 @@ class LolaToPetrinet extends Converter {
         $m = explode(',', $m);
         foreach ($m as $item) {
             list($place, $tokens) = sscanf($item, "%[^:]:%d");
-            $this->printer->terminalLog("Dit is de marking place!");
-            $this->printer->terminalLog($place);
-            $this->printer->terminalLog($item);
             $builder->assign(new Place($place), new IntegerTokenCount($tokens));
         }
         return $builder->getMarking($petrinet);

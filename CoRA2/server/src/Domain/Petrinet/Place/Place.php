@@ -38,6 +38,10 @@ class Place implements PetrinetElementInterface, JsonSerializable, Hashable {
         return $this->getID() === $obj->getID();
     }
 
+    public function getArray(): array {
+        return array($this->getID(), $this->getCoordinates(), $this->getLabel());
+    }
+
     public function jsonSerialize(): mixed {
         return [
             'id' => $this->getID(),

@@ -22,19 +22,11 @@ class MarkingBuilder implements MarkingBuilderInterface {
     public function assign(Place $p, Tokens $t): void {
         $this->map->put($p, $t);
         $properties = get_object_vars($p);
-        foreach ($properties as $id => $value){
-            // $this->printer->terminalLog($id);
-            // $this->printer->terminalLog($value);
-        }
     }
 
     public function getMarking(Petrinet $net): IMarking {
         $places = $net->getPlaces();
-        // foreach ($places as $singular)
-        //     $this->printer->terminalLog($singular);
         $assignedPlaces = $this->map->keys();
-        // foreach ($assignedPlaces as $singular)
-        //     $this->printer->terminalLog($singular);
         foreach($assignedPlaces as $place) {
             if (!$places->contains($place))
                 throw new Exception("Tokens assigned to invalid place");

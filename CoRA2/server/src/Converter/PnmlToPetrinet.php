@@ -108,15 +108,19 @@ class PnmlToPetrinet extends Converter {
         foreach ($places as $place) {
             $placeId = $place->getAttribute('id');
 
-            //check if the place has an initial marking
-            if (isset($place->initialMarking)) {
-                $marking = count($place->initialMarking->token);
+            //
+            $initialMarking = $place->getElementsByTagName('initialMarkign');
+            if ($initialMarking !== null){
+                $marking = count($place->getElementsByTagName('token'));
                 $petriPlace = $builder->getPlace($placeId);
+
+                $text = $place->getElementsByTagName('text')[0]->nodeValue;
+
                 $mBuilder = new MarkingBuilder();
                 $mBuilder->assign($petriPlace, new IntegerTokenCount($marking));
-                $initialMarking = $mBuilder->getMarking($petrinet);
             }
+            $initialMarkingFinal = $mBuilder->getMarking($petrinet);
         }
-        return new MarkedPetrinet($petrinet, $initialMarking);
+        return new MarkedPetrinet($petrinet, $initialMarkingFinal);
     }
 }

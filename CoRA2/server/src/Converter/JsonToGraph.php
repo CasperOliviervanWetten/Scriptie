@@ -42,27 +42,12 @@ class JsonToGraph extends Converter {
 
     protected function addVertexes(IGraphBuilder &$builder) {
         $json = $this->json;
-        // $this->printer->terminalLog($json);
-        // foreach ($json["states"] as $state){
-        //     $this->printer->terminalLog("Hier komt een state!");
-        //     $this->printer->terminalLog(implode(",", $state));
-        //     foreach ($state as $value){
-        //         $this->printer->terminalLog("Hier komt een value!");
-        //         $this->printer->terminalLog($value);
-        //     }
-        // }
-
-
         $states = $json["states"];
         foreach($states as $stateA) {
             if (!array_key_exists("state", $stateA) ||
                 !array_key_exists("id", $stateA))
                 throw new Exception("Could not parse graph: incorrect format");
-            $vertexId = intval($stateA["id"]);
-            foreach($stateA as $value)
-                // $this->printer->terminalLog($value);
-            
-
+            $vertexId = intval($stateA["id"]);   
             $marking = $this->stringToMarking($stateA["state"]);
             $builder->addVertex($vertexId, $marking);
         }
