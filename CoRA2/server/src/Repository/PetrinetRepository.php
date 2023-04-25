@@ -35,22 +35,6 @@ class PetrinetRepository extends AbstractRepository {
         if (!$this->petrinetExists($id)){return NULL;}
         $builder = new PetrinetBuilder();
         $builder->addPlaces($this->getPlaces($id));
-
-        $this->printer->terminalLog("Dit zijn alle plaatsen!");
-        foreach ($this->getPlaces($id) as $place){
-            $this->printer->terminalLog($place);
-        }
-
-        $this->printer->terminalLog("De transities zijn hier?");
-        foreach ($this->getTransitions($id) as $place){
-            $this->printer->terminalLog($place);
-        }
-
-        $this->printer->terminalLog("Een flow ziet er zo uit 0_o");
-        foreach ($this->getFlows($id) as $place){
-            $this->printer->terminalLog($place);
-        }
-
         $builder->addTransitions($this->getTransitions($id));
         $builder->addFlows($this->getFlows($id));
         $petrinet = $builder->getPetrinet();
@@ -228,18 +212,40 @@ class PetrinetRepository extends AbstractRepository {
     }
 
     protected function savePlaces(IPetrinet $petrinet, int $id) {
+        // Retrieve places from the petrinet
         $places = $petrinet->getPlaces();
-        $values = implode(", ", array_map(
-            function($place) 
-            {
-            return sprintf("(:pid, :%sname)", $place); 
-            }, 
-        $places->toArray()));
-        $query = sprintf("INSERT INTO %s (`petrinet`, `name`) VALUES %s",
+        // Grab values to load into database: implode (join) some array computed by a mapping
+        $values = implode(
+            ", ", // join with a comma and space
+            array_map (
+                // Function to call on each element of the array given
+                function($place) {
+                    // Return a formatted string
+                    return sprintf (
+                        "(id:%s, label:%s, coords:%s)",
+                        $place->getID(),
+                        $place->getLabel(), 
+                        // coordinates is an array, so we join it with a comma (implode())
+                        // Then we add a ( in front and ) afterwards using string concatenation 
+                        // "a"."b" --> "ab"
+                        "(".implode(",", $place->getCoordinates()).")"
+                    );
+                },
+                // Array to call function on for each element
+                $places->toArray()
+            )
+        );
+        $query = sprintf("INSERT INTO %s (`petrinet`, `name`, `label`, `coordinates`) VALUES %s",
                          $_ENV['PETRINET_PLACE_TABLE'], $values);
+                         
+        $this->printer->terminalLog("Dit is de query wat de plaatsen opslaat");
+        $this->printer->terminalLog($values);
         $this->printer->terminalLog($query);
+
         $statement = $this->db->prepare($query);
+        // TODO: Check how params are bound; how to retrieve from new $values
         $statement->bindParam(":pid", $id, PDO::PARAM_INT);
+
         foreach($places as $place)
             $statement->bindValue(sprintf(":%sname", $place), $place, PDO::PARAM_STR);
         $statement->execute();
