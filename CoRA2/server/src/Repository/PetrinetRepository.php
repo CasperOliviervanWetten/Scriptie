@@ -229,27 +229,25 @@ class PetrinetRepository extends AbstractRepository {
             ); 
             }, 
             $places->toArray()));
-
         //Write the query
         $query = sprintf("INSERT INTO %s (`petrinet`, `name`, `label`, `coordX`, `coordY`) VALUES %s",
                          $_ENV['PETRINET_PLACE_TABLE'], $values);
-
         $statement = $this->db->prepare($query);
         //Bind the $pid (petrinet ID number) to the query
         $statement->bindParam(":pid", $pid, PDO::PARAM_INT);
-        
         //For each place in the array of places, grab each individual attribute (and the split coords) in the
         //same format as above, and bind them to their own query
         foreach($places as $place){
-            $statement->bindValue(sprintf(":%sname", $place->getID()), $place->getID(), PDO::PARAM_STR);
+            //prepare the data
             $underscoredLabel = preg_replace('/\s+/', '_', $place->getLabel());
-            $statement->bindValue(sprintf(":%slabel", $underscoredLabel), $underscoredLabel, PDO::PARAM_STR);
             $coordX = strstr($place->getCoordinates()[0], '.', true);
-            $statement->bindValue(sprintf(":%scoordX", $coordX), $coordX, PDO::PARAM_STR);
             $coordY = strstr($place->getCoordinates()[1], '.', true);
+            //bind the values
+            $statement->bindValue(sprintf(":%sname", $place->getID()), $place->getID(), PDO::PARAM_STR);
+            $statement->bindValue(sprintf(":%slabel", $underscoredLabel), $underscoredLabel, PDO::PARAM_STR);
+            $statement->bindValue(sprintf(":%scoordX", $coordX), $coordX, PDO::PARAM_STR);
             $statement->bindValue(sprintf(":%scoordY", $coordY), $coordY, PDO::PARAM_STR);
         }        
-
         $statement->execute();
 
 
@@ -257,14 +255,34 @@ class PetrinetRepository extends AbstractRepository {
 
     protected function saveTransitions(IPetrinet $petrinet, int $id) {
         $transitions = $petrinet->getTransitions();
+
         $values = implode(", ", array_map(function($trans) {
-            return sprintf("(:pid, :%sname)", $trans); }, $transitions->toArray()));
-        $query = sprintf("INSERT INTO %s (`petrinet`, `name`) VALUES %s",
+            return sprintf("(:pid, :%sname, :%slabel, :%scoordX, :%scoordY)", 
+            $trans->getID(),
+            //Replace all ' ' items in the string with '_'
+            preg_replace('/\s+/', '_', $trans->getLabel()),
+            //Get the individual coords, and cut them off after the .
+            strstr($trans->getCoordinates()[0], '.', true),           
+            strstr($trans->getCoordinates()[1], '.', true)           
+            ); 
+            }, 
+            $transitions->toArray()));
+
+            $query = sprintf("INSERT INTO %s (`petrinet`, `name`, `label`, `coordX`, `coordY`) VALUES %s",
                          $_ENV['PETRINET_TRANSITION_TABLE'], $values);
         $statement = $this->db->prepare($query);
         $statement->bindParam(":pid", $id, PDO::PARAM_INT);
-        foreach($transitions as $trans)
-            $statement->bindValue(sprintf(":%sname", $trans), $trans, PDO::PARAM_STR);
+        foreach($transitions as $trans){
+            //prepare the data
+            $underscoredLabel = preg_replace('/\s+/', '_', $trans->getLabel());
+            $coordX = strstr($trans->getCoordinates()[0], '.', true);
+            $coordY = strstr($trans->getCoordinates()[1], '.', true);
+            //bind the values
+            $statement->bindValue(sprintf(":%sname", $trans->getID()), $trans->getID(), PDO::PARAM_STR);
+            $statement->bindValue(sprintf(":%slabel", $underscoredLabel), $underscoredLabel, PDO::PARAM_STR);
+            $statement->bindValue(sprintf(":%scoordX", $coordX), $coordX, PDO::PARAM_STR);
+            $statement->bindValue(sprintf(":%scoordY", $coordY), $coordY, PDO::PARAM_STR);
+        } 
         $statement->execute();
     }
 

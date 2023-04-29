@@ -1,6 +1,11 @@
 version: "3.9"
 
 services:
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+    - 8090:8090
   back_end:
     build: .
     ports:

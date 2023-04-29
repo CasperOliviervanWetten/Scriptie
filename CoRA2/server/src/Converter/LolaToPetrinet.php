@@ -54,7 +54,6 @@ class LolaToPetrinet extends Converter {
         $s = trim(preg_replace('/PLACE|[,;]/i', '', $line));
         $s = explode(' ', $s);
         foreach ($s as $name){
-            $this->printer->terminalLog($name);
             $builder->addPlace(new Place($name));
         }
             
