@@ -79,7 +79,7 @@ class PnmlToPetrinet extends Converter {
             $positionY = $place->getElementsByTagName('position')->item(0)->getAttribute('y');    
             $coordinates = array($positionX, $positionY);
             //get the text 
-            $text = $place->getElementsByTagName('text')[0]->nodeValue;
+            $text = $transition->getElementsByTagName('text')[0]->nodeValue;
             //add the transition
             $builder->addTransition(new Transition($id, $coordinates, $text));
         }
