@@ -165,7 +165,6 @@ class PetrinetRepository extends AbstractRepository {
         foreach($statement->fetchAll() as $row) {
             $name = $row["name"];
             $label = preg_replace('~_~', ' ', $row["label"]);
-            $this->printer->terminalLog($label);
             $coordinates = [$row["coordX"], $row["coordY"]];
             $place = new Place($name, $coordinates, $label);
             $places->add($place);
@@ -176,13 +175,13 @@ class PetrinetRepository extends AbstractRepository {
     protected function getTransitions(int $id): TransitionContainerInterface {
         $transitions = new TransitionContainer();
         $query = sprintf("SELECT `name`, `label`, `coordX`, `coordY` FROM %s WHERE petrinet = :pid",
-        $_ENV['PETRINET_TRANSITION_TABLE']);
+                        $_ENV['PETRINET_TRANSITION_TABLE']);
         $statement = $this->db->prepare($query);
         $statement->execute([":pid" => $id]);
         foreach($statement->fetchAll() as $row) {
+            //prepare the fetched data to create a new Place object
             $name = $row["name"];
-            $label = preg_replace('~_~', ' ', $row["label"]);
-            $this->printer->terminalLog($label);
+            $label = preg_replace('~_~', ' ', $row["label"]); 
             $coordinates = [$row["coordX"], $row["coordY"]];
             $transition = new Transition($name, $coordinates, $label);
             $transitions->add($transition);
