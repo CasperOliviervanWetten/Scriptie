@@ -106,7 +106,10 @@ CREATE TABLE `petrinet_place` (
 
 CREATE TABLE `petrinet_transition` (
   `petrinet` int(11) NOT NULL,
-  `name` varchar(80) COLLATE utf8mb4_unicode_ci NOT NULL
+  `name` varchar(80) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `label` varchar(80) COLLATE utf8mb4_unicode_ci NULL,
+  `coordx` varchar(80) COLLATE utf8mb4_unicode_ci NULL,
+  `coordy` varchar(80) COLLATE utf8mb4_unicode_ci NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------

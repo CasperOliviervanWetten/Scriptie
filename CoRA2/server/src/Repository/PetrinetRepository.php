@@ -232,6 +232,7 @@ class PetrinetRepository extends AbstractRepository {
         //Write the query
         $query = sprintf("INSERT INTO %s (`petrinet`, `name`, `label`, `coordX`, `coordY`) VALUES %s",
                          $_ENV['PETRINET_PLACE_TABLE'], $values);
+        $this->printer->terminalLog($query);
         $statement = $this->db->prepare($query);
         //Bind the $pid (petrinet ID number) to the query
         $statement->bindParam(":pid", $pid, PDO::PARAM_INT);
