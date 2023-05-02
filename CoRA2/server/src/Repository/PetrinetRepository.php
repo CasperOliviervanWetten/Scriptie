@@ -158,25 +158,33 @@ class PetrinetRepository extends AbstractRepository {
 
     protected function getPlaces(int $id): PlaceContainerInterface {
         $places = new PlaceContainer();
-        $query = sprintf("SELECT `name` FROM %s WHERE petrinet = :pid",
+        $query = sprintf("SELECT `name`, `label`, `coordX`, `coordY` FROM %s WHERE petrinet = :pid",
                          $_ENV['PETRINET_PLACE_TABLE']);
         $statement = $this->db->prepare($query);
         $statement->execute([":pid" => $id]);
         foreach($statement->fetchAll() as $row) {
-            $place = new Place($row["name"]);
+            $name = $row["name"];
+            $label = preg_replace('~_~', ' ', $row["label"]);
+            $this->printer->terminalLog($label);
+            $coordinates = [$row["coordX"], $row["coordY"]];
+            $place = new Place($name, $coordinates, $label);
             $places->add($place);
         }
         return $places;
     }
-
+    
     protected function getTransitions(int $id): TransitionContainerInterface {
         $transitions = new TransitionContainer();
-        $query = sprintf("SELECT `name` FROM %s WHERE petrinet = :pid",
-                         $_ENV['PETRINET_TRANSITION_TABLE']);
+        $query = sprintf("SELECT `name`, `label`, `coordX`, `coordY` FROM %s WHERE petrinet = :pid",
+        $_ENV['PETRINET_TRANSITION_TABLE']);
         $statement = $this->db->prepare($query);
         $statement->execute([":pid" => $id]);
         foreach($statement->fetchAll() as $row) {
-            $transition = new Transition($row["name"]);
+            $name = $row["name"];
+            $label = preg_replace('~_~', ' ', $row["label"]);
+            $this->printer->terminalLog($label);
+            $coordinates = [$row["coordX"], $row["coordY"]];
+            $transition = new Transition($name, $coordinates, $label);
             $transitions->add($transition);
         }
         return $transitions;
@@ -232,7 +240,6 @@ class PetrinetRepository extends AbstractRepository {
         //Write the query
         $query = sprintf("INSERT INTO %s (`petrinet`, `name`, `label`, `coordX`, `coordY`) VALUES %s",
                          $_ENV['PETRINET_PLACE_TABLE'], $values);
-        $this->printer->terminalLog($query);
         $statement = $this->db->prepare($query);
         //Bind the $pid (petrinet ID number) to the query
         $statement->bindParam(":pid", $pid, PDO::PARAM_INT);
