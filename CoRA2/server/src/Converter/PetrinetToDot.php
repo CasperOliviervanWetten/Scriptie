@@ -2,6 +2,8 @@
 
 namespace Cora\Converter;
 
+use Cora\Utils\Printer;
+
 use Cora\Domain\Petrinet\PetrinetInterface as Petrinet;
 use Cora\Domain\Petrinet\Marking\MarkingInterface as Marking;
 use Cora\Domain\Petrinet\Marking\Tokens\IntegerTokenCount;
@@ -9,10 +11,12 @@ use Cora\Domain\Petrinet\Marking\Tokens\IntegerTokenCount;
 class PetrinetToDot extends Converter {
     protected $petrinet;
     protected $marking;
+    protected $printer;
 
     public function __construct(Petrinet $net, ?Marking $marking=NULL) {
         $this->petrinet = $net;
         $this->marking  = $marking;
+        $this->printer  = new Printer;
     }
 
     public function convert() {
@@ -46,30 +50,49 @@ class PetrinetToDot extends Converter {
     protected function placesToArray() {
         $places = $this->petrinet->getPlaces();
         $ids = [];
-        $names = [];
+        $makeupArray = [];
         foreach ($places as $place) {
             $id = $place->getID();
             $ids[] = $id;
             $name = $place->getLabel() ?? $id;
-            $id .= ' [xlabel="' . $name . '"]';
-            $names[] = $id;
+            // Coordinates may or may not be null, so this bit checks if they are and creates a $makeup value
+            $coordinates = $place->getCoordinates();
+            if(!is_null($coordinates)){
+                $makeup = $id . ' [xlabel="' . $name . '", xcoordinates="' . implode(',', $coordinates) . '"]';
+            }else{
+                $makeup = $id . ' [xlabel="' . $name . '"]';
+            }
+            $makeupArray[] = $makeup;
         }
         //Transform $ids into a string with ', ' in between the array values, and add the format options of the places 
         $ids = implode(", ", $ids);
         $ids .= '[shape="ellipse", width=0.75, height=0.75, label=""]';
-        return array_merge([$ids],$names);
+        $this->printer->terminalLog(implode(", ",array_merge([$ids],$makeupArray)));
+        return array_merge([$ids],$makeupArray);
     }
-
+    
     protected function transitionsToArray() {
         $transitions = $this->petrinet->getTransitions();
-        $names = [];
-        foreach ($transitions as $transition) { 
-            $name = $transition->getLabel() ?? $transition->getID();
-            $names[] = $name;
+        $ids = [];
+        $makeupArray = [];
+        foreach ($transitions as $transition) {
+            $id = $transition->getID();
+            $ids[] = $id;
+            $name = $transition->getLabel() ?? $id;
+            // Coordinates may or may not be null, so this bit checks if they are and creates a $makeup value accordingly
+            $coordinates = $transition->getCoordinates();
+            if(!is_null($coordinates)){
+                $makeup = $id . ' [xlabel="' . $name . '", xcoordinates="' . implode(',', $coordinates) . '"]';
+            }else{
+                $makeup = $id . ' [xlabel="' . $name . '"]';
+            }
+            $makeupArray[] = $makeup;
         }
-        $optionsStr = '[shape="box", style="filled", fillcolor="#2ECC71", width=0.75, height=0.75]';
-        $t = sprintf("%s %s;", implode(", ", $names), $optionsStr);
-        return [$t];
+        //Transform $ids into a string with ', ' in between the array values, and add the format options of the places 
+        $ids = implode(", ", $ids);
+        $ids .= '[shape="box", style="filled", fillcolor="#2ECC71", width=0.75, height=0.75]';
+        $this->printer->terminalLog(implode(", ",array_merge([$ids],$makeupArray)));
+        return array_merge([$ids],$makeupArray);
     }
 
     protected function flowsToArray() {
