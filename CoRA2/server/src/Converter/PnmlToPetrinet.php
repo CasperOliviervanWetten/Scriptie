@@ -75,8 +75,8 @@ class PnmlToPetrinet extends Converter {
             //get the id via attribute
             $id = $transition->getAttribute('id'); 
             //get the coordinates via tag 
-            $positionX = $place->getElementsByTagName('position')->item(0)->getAttribute('x');
-            $positionY = $place->getElementsByTagName('position')->item(0)->getAttribute('y');    
+            $positionX = $transition->getElementsByTagName('position')->item(0)->getAttribute('x');
+            $positionY = $transition->getElementsByTagName('position')->item(0)->getAttribute('y');    
             $coordinates = array($positionX, $positionY);
             //get the text 
             $text = $transition->getElementsByTagName('text')[0]->nodeValue;
