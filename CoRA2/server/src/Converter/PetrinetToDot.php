@@ -27,7 +27,8 @@ class PetrinetToDot extends Converter {
         $options = [
             'graph [fontname="monospace", fontsize="14"]',
             'node [fontname="monospace", fontsize="14"]',
-            'edge [fontname="monospace", fontsize="10"]'
+            'edge [fontname="monospace", fontsize="10"]',
+            'scale = "0.015,0.015"'
         ];
         $s = "digraph G {";
         $s .= "\n\t";
@@ -58,16 +59,15 @@ class PetrinetToDot extends Converter {
             // Coordinates may or may not be null, so this bit checks if they are and creates a $makeup value
             $coordinates = $place->getCoordinates();
             if(!is_null($coordinates)){
-                $makeup = $id . ' [xlabel="' . $name . '", xcoordinates="' . implode(',', $coordinates) . '"]';
+                $makeup = $id . ' [label="' . $name . '", pos="' . implode(',', $coordinates) . '!"]';
             }else{
-                $makeup = $id . ' [xlabel="' . $name . '"]';
+                $makeup = $id . ' [label="' . $name . '"]';
             }
             $makeupArray[] = $makeup;
         }
         //Transform $ids into a string with ', ' in between the array values, and add the format options of the places 
         $ids = implode(", ", $ids);
         $ids .= '[shape="ellipse", width=0.75, height=0.75, label=""]';
-        $this->printer->terminalLog(implode(", ",array_merge([$ids],$makeupArray)));
         return array_merge([$ids],$makeupArray);
     }
     
@@ -82,16 +82,15 @@ class PetrinetToDot extends Converter {
             // Coordinates may or may not be null, so this bit checks if they are and creates a $makeup value accordingly
             $coordinates = $transition->getCoordinates();
             if(!is_null($coordinates)){
-                $makeup = $id . ' [xlabel="' . $name . '", xcoordinates="' . implode(',', $coordinates) . '"]';
+                $makeup = $id . ' [label="' . $name . '", pos="' . implode(',', $coordinates) . '!"]';
             }else{
-                $makeup = $id . ' [xlabel="' . $name . '"]';
+                $makeup = $id . ' [label="' . $name . '"]';
             }
             $makeupArray[] = $makeup;
         }
         //Transform $ids into a string with ', ' in between the array values, and add the format options of the places 
         $ids = implode(", ", $ids);
-        $ids .= '[shape="box", style="filled", fillcolor="#2ECC71", width=0.75, height=0.75]';
-        $this->printer->terminalLog(implode(", ",array_merge([$ids],$makeupArray)));
+        $ids .= '[shape="box", style="filled", fillcolor="#2ECC71", width=0.75, height=0.75, label=""]';
         return array_merge([$ids],$makeupArray);
     }
 
@@ -110,13 +109,22 @@ class PetrinetToDot extends Converter {
 
     protected function markingToArray() {
         $result = [];
-        if (is_null($this->marking))
+        if (is_null($this->marking)){
             return $result;
+        }
+        
         foreach($this->marking as $place => $tokens) {
-            if ($tokens instanceof IntegerTokenCount &&
-                $tokens->getValue() <= 0)
+            if ($tokens instanceof IntegerTokenCount && $tokens->getValue() <= 0){
                 continue;
-            $l = sprintf('%s [label="%s"];', $place, $tokens);
+            }
+            if(!is_null($place->getCoordinates())){
+                $coordx = $place->getCoordinates()[0];
+                $coordy = intval($place->getCoordinates()[1]);
+                $newCoordy = $coordy + intval(40);   
+                $l = sprintf('%s [xlabel="%s", xlp="%s, %s"];', $place, $tokens, $coordx, $newCoordy);
+            }else{
+                $l = sprintf('%s [xlabel="%s", ];', $place, $tokens);
+            }
             array_push($result, $l);
         }
         return $result;
