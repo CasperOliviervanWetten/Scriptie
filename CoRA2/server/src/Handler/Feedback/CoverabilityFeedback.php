@@ -16,13 +16,11 @@ use Cora\View\Factory\FeedbackViewFactory;
 class CoverabilityFeedback extends AbstractHandler {
     public function handle(Request $request, Response $response, $args) {
         $parsedBody = $request->getParsedBody();
-        
-        $printer = new Printer;
-
+    
         $userId = $parsedBody["user_id"] ?? NULL;
         if (is_null($userId))
             throw new HttpBadRequestException(
-                $request, "No user id provided");
+                $request, "No user id provxided");
 
         $sessionId = $parsedBody["session_id"] ?? NULL;
         if (is_null($sessionId))
