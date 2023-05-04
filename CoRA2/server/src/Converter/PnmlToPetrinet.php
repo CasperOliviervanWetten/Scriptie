@@ -89,8 +89,8 @@ class PnmlToPetrinet extends Converter {
         foreach ($flows as $flow) {
             $sourceID = $flow->getAttribute('source');
             $targetID = $flow->getAttribute('target');
-            $weight = intval($flow->getAttribute('weight'));
-
+            $weight = intval($flow->getElementsByTagName('text')[0]->nodeValue);
+            
             $target = $builder->getPlace($targetID) ?? $builder->getTransition($targetID);
             $source = $builder->getTransition($sourceID) ?? $builder->getPlace($sourceID);
 
