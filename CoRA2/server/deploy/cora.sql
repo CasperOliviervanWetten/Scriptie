@@ -81,7 +81,9 @@ CREATE TABLE `petrinet_marking` (
 CREATE TABLE `petrinet_marking_pair` (
   `marking` int(11) NOT NULL,
   `place` varchar(80) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `tokens` int(11) NOT NULL
+  `tokens` int(11) NOT NULL,
+  `coordx` varchar(80) COLLATE utf8mb4_unicode_ci NULL,
+  `coordy` varchar(80) COLLATE utf8mb4_unicode_ci NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
