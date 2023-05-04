@@ -28,7 +28,7 @@ class PetrinetToDot extends Converter {
             'graph [fontname="monospace", fontsize="14"]',
             'node [fontname="monospace", fontsize="14"]',
             'edge [fontname="monospace", fontsize="10"]',
-            'scale = "0.015,0.015"'
+            'scale = "0.015,0.025"'
         ];
         $s = "digraph G {";
         $s .= "\n\t";
