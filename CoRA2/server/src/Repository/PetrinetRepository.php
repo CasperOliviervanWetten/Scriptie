@@ -56,8 +56,8 @@ class PetrinetRepository extends AbstractRepository {
         $builder = new MarkingBuilder();
         foreach($statement->fetchAll() as $row) {
             $tokens = new IntegerTokenCount(intval($row["tokens"]));
-            $cordiantes = [$row["coordx"], $row["coordy"]];
-            $place = new Place($row["place"], $cordiantes);
+            $coordinates = [$row["coordx"], $row["coordy"]];
+            $place = new Place($row["place"], $coordinates);
             $builder->assign($place, $tokens);
         }
         return $builder->getMarking($p);
@@ -129,12 +129,10 @@ class PetrinetRepository extends AbstractRepository {
         $values = [];
         foreach($marking->places() as $place){
             $temp = sprintf("(:mid, :%sp, :%st, :%sx, :%sy)", $place, $place, $place, $place);
-            array_push($values, $temp);
-            $this->printer->terminalLog($temp);            
+            array_push($values, $temp);           
         }
         $query = sprintf("INSERT INTO %s (`marking`, `place`, `tokens`, `coordx`, `coordy`) VALUES %s",
-            $_ENV['PETRINET_MARKING_PAIR_TABLE'], implode(", ", $values));
-        $this->printer->terminalLog($query);            
+            $_ENV['PETRINET_MARKING_PAIR_TABLE'], implode(", ", $values));        
         $statement = $this->db->prepare($query);
         $statement->bindValue(":mid", $markingId);
         foreach($marking as $place => $tokens) {
