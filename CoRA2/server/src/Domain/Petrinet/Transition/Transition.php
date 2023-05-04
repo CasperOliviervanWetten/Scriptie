@@ -38,7 +38,7 @@ class Transition implements PetrinetElementInterface, JsonSerializable {
     }
 
     public function jsonSerialize(): mixed {
-        return $this->getLabel();
+        return $this->getID();
     }
 
     public function __toString() {

@@ -56,12 +56,16 @@ class PetrinetToDot extends Converter {
             $id = $place->getID();
             $ids[] = $id;
             $name = $place->getLabel() ?? $id;
+
             // Coordinates may or may not be null, so this bit checks if they are and creates a $makeup value
             $coordinates = $place->getCoordinates();
             if(!is_null($coordinates)){
-                $makeup = $id . ' [label="' . $name . '", pos="' . implode(',', $coordinates) . '!"]';
-            }else{
-                $makeup = $id . ' [label="' . $name . '"]';
+                $coordx = $place->getCoordinates()[0];
+                $coordy = intval($place->getCoordinates()[1]);
+                $newCoordy = $coordy + intval(40);   
+                $makeup = $id . ' [xlabel="' . $id .': ' .  $name . '", pos="' . implode(',', $coordinates) . '!", xlp="' . $coordx . ', ' . $newCoordy . '!"]';
+            }else{  
+                $makeup = $id . ' [xlabel="' . $name . '"]';
             }
             $makeupArray[] = $makeup;
         }
@@ -82,7 +86,7 @@ class PetrinetToDot extends Converter {
             // Coordinates may or may not be null, so this bit checks if they are and creates a $makeup value accordingly
             $coordinates = $transition->getCoordinates();
             if(!is_null($coordinates)){
-                $makeup = $id . ' [label="' . $name . '", pos="' . implode(',', $coordinates) . '!"]';
+                $makeup = $id . ' [label="' . $id .': ' .  $name . '", pos="' . implode(',', $coordinates) . '!"]';
             }else{
                 $makeup = $id . ' [label="' . $name . '"]';
             }
@@ -117,14 +121,7 @@ class PetrinetToDot extends Converter {
             if ($tokens instanceof IntegerTokenCount && $tokens->getValue() <= 0){
                 continue;
             }
-            if(!is_null($place->getCoordinates())){
-                $coordx = $place->getCoordinates()[0];
-                $coordy = intval($place->getCoordinates()[1]);
-                $newCoordy = $coordy + intval(40);   
-                $l = sprintf('%s [xlabel="%s", xlp="%s, %s"];', $place, $tokens, $coordx, $newCoordy);
-            }else{
-                $l = sprintf('%s [xlabel="%s", ];', $place, $tokens);
-            }
+            $l = sprintf('%s [label="%s", ];', $place, $tokens);            
             array_push($result, $l);
         }
         return $result;
