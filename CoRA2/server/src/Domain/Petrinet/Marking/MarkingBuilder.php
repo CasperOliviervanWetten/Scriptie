@@ -21,7 +21,6 @@ class MarkingBuilder implements MarkingBuilderInterface {
 
     public function assign(Place $p, Tokens $t): void {
         $this->map->put($p, $t);
-        $properties = get_object_vars($p);
     }
 
     public function getMarking(Petrinet $net): IMarking {

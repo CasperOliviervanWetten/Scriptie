@@ -2,6 +2,8 @@
 
 namespace Cora\Service;
 
+use Cora\Utils\Printer;
+
 use Cora\Converter\PetrinetToDot;
 use Cora\Domain\Petrinet\PetrinetInterface as IPetrinet;
 use Cora\Domain\Petrinet\Marking\MarkingInterface as IMarking;
@@ -11,9 +13,11 @@ use Cora\Exception\PetrinetNotFoundException;
 
 class GetPetrinetImageService {
     private $repository;
+    private $printer;
 
     public function __construct(PetrinetRepository $repository) {
         $this->repository = $repository;
+        $this->printer = new Printer;
     }
 
     public function get(int $pid, ?int $mid) {
@@ -31,9 +35,9 @@ class GetPetrinetImageService {
 
     protected function generateImage(IPetrinet $petrinet, ?IMarking $marking) {
         $converter = new PetrinetToDot($petrinet, $marking);
-        $command = sprintf('echo %s | %s -Tsvg',
+        $command = sprintf('echo %s | %s -n2 -Tsvg',
                            escapeshellarg($converter->convert()),
-                           escapeshellcmd($_ENV['DOT_PATH']));
+                           escapeshellcmd('neato'));
         exec($command, $lines, $status);
         if ($status != 0)
             throw new Exception("Dot exited with non-zero status");

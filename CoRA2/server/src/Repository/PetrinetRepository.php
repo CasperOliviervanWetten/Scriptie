@@ -49,14 +49,15 @@ class PetrinetRepository extends AbstractRepository {
             return NULL;
 
         $query = sprintf(
-            "SELECT `place`, `tokens` FROM %s WHERE marking = :mid",
+            "SELECT `place`, `tokens`, `coordx`, `coordy` FROM %s WHERE marking = :mid",
             $_ENV['PETRINET_MARKING_PAIR_TABLE']);
         $statement = $this->db->prepare($query);
         $statement->execute([":mid" => $mid]);
         $builder = new MarkingBuilder();
         foreach($statement->fetchAll() as $row) {
-            $place = new Place($row["place"]);
             $tokens = new IntegerTokenCount(intval($row["tokens"]));
+            $cordiantes = [$row["coordx"], $row["coordy"]];
+            $place = new Place($row["place"], $cordiantes);
             $builder->assign($place, $tokens);
         }
         return $builder->getMarking($p);
@@ -126,15 +127,24 @@ class PetrinetRepository extends AbstractRepository {
         $markingId = $this->db->lastInsertId();
         // insert place-token pairs
         $values = [];
-        foreach($marking->places() as $place)
-            array_push($values, sprintf("(:mid, :%sp, :%st)", $place, $place));
-        $query = sprintf("INSERT INTO %s (`marking`, `place`, `tokens`) VALUES %s",
-                         $_ENV['PETRINET_MARKING_PAIR_TABLE'], implode(", ", $values));
+        foreach($marking->places() as $place){
+            $temp = sprintf("(:mid, :%sp, :%st, :%sx, :%sy)", $place, $place, $place, $place);
+            array_push($values, $temp);
+            $this->printer->terminalLog($temp);            
+        }
+        $query = sprintf("INSERT INTO %s (`marking`, `place`, `tokens`, `coordx`, `coordy`) VALUES %s",
+            $_ENV['PETRINET_MARKING_PAIR_TABLE'], implode(", ", $values));
+        $this->printer->terminalLog($query);            
         $statement = $this->db->prepare($query);
         $statement->bindValue(":mid", $markingId);
         foreach($marking as $place => $tokens) {
+            $coordX = strstr($place->getCoordinates()[0], '.', true);
+            $coordY = strstr($place->getCoordinates()[1], '.', true);
+            
             $statement->bindValue(sprintf(":%sp", $place), $place, PDO::PARAM_STR);
             $statement->bindValue(sprintf(":%st", $place), $tokens, PDO::PARAM_STR);
+            $statement->bindValue(sprintf(":%sx", $place), $coordX, PDO::PARAM_STR);
+            $statement->bindValue(sprintf(":%sy", $place), $coordY, PDO::PARAM_STR);
         }
         $statement->execute();
         return $markingId;
@@ -175,7 +185,7 @@ class PetrinetRepository extends AbstractRepository {
     protected function getTransitions(int $id): TransitionContainerInterface {
         $transitions = new TransitionContainer();
         $query = sprintf("SELECT `name`, `label`, `coordX`, `coordY` FROM %s WHERE petrinet = :pid",
-                        $_ENV['PETRINET_TRANSITION_TABLE']);
+                    $_ENV['PETRINET_TRANSITION_TABLE']);
         $statement = $this->db->prepare($query);
         $statement->execute([":pid" => $id]);
         foreach($statement->fetchAll() as $row) {
