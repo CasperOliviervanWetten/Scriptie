@@ -2,8 +2,6 @@
 
 namespace Cora\Converter;
 
-use Cora\Utils\Printer;
-
 use Cora\Domain\Petrinet\PetrinetBuilder;
 use Cora\Domain\Petrinet\Place\Place;
 use Cora\Domain\Petrinet\Transition\Transition;
@@ -12,14 +10,13 @@ use Cora\Domain\Petrinet\Marking\Tokens\IntegerTokenCount;
 use Cora\Domain\Petrinet\Marking\MarkingBuilder;
 use Cora\Domain\Petrinet\MarkedPetrinet;
 
-use Exception;
+use Cora\Exception\BadInputException;
 
 class LolaToPetrinet extends Converter {
     protected $lola;
 
     public function __construct(string $lola) {
         $this->lola = $lola;
-        $this->printer = new Printer;
     }
 
     public function convert() {
@@ -45,7 +42,7 @@ class LolaToPetrinet extends Converter {
         }
         $petrinet = $builder->getPetrinet();
         if (is_null($markingLine))
-            throw new Exception("Could not parse Lola: no marking");
+            throw new BadInputException("Could not parse Lola: no marking");
         $marking = $this->parseMarking($markingLine, $petrinet);
         return new MarkedPetrinet($petrinet, $marking);
     }
@@ -53,10 +50,8 @@ class LolaToPetrinet extends Converter {
     protected function parsePlaces($line, &$builder) {
         $s = trim(preg_replace('/PLACE|[,;]/i', '', $line));
         $s = explode(' ', $s);
-        foreach ($s as $name){
+        foreach ($s as $name)
             $builder->addPlace(new Place($name));
-        }
-            
     }
 
     protected function parseMarking($line, &$petrinet) {

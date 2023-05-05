@@ -30,4 +30,4 @@ class Paginator {
         return new Paginator($this->limit, max($this->page - 1, 1));
     }
 }
-
+?>

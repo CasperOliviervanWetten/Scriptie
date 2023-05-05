@@ -102,7 +102,7 @@ class Marking implements IMarking {
     public function jsonSerialize(): mixed {
         $result = [];
         foreach($this->map as $place => $tokens)
-            $result[$place->getID()] = $tokens;
+            $result[$place->getName()] = $tokens;
         return $result;
     }
 }

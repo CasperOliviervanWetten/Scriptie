@@ -7,10 +7,7 @@ use Cora\Domain\Session\SessionLog;
 use Cora\Domain\Session\MetaSessionLog;
 use Cora\Domain\Graph\GraphInterface as IGraph;
 
-use Cora\Exception\NoSessionException;
-use Cora\Exception\NoSessionLogException;
-use Cora\Exception\NoMetaLogException;
-use Cora\Exception\InvalidSessionException;
+use Cora\Exception\NotFoundException;
 
 class SessionRepository extends AbstractRepository {
     public function getCurrentSession(int $userId): Session {
@@ -24,9 +21,14 @@ class SessionRepository extends AbstractRepository {
         int $petrinetId,
         int $markingId
     ): Session {
+        $this->logger->info("starting new session",
+                            ["user_id"     => $userId,
+                             "petrinet_id" => $petrinetId,
+                             "marking_id"  => $markingId]);
+
         try {
             $metaLog = $this->getMetaLog($userId);
-        } catch (NoMetaLogException $e) {
+        } catch (NotFoundException $e) {
             $metaLog = $this->createMetaLog($userId);
         }
         $sessionId = $metaLog->getSessionCount();
@@ -48,6 +50,9 @@ class SessionRepository extends AbstractRepository {
         int $sessionId,
         IGraph $graph
     ) {
+        $this->logger->info("appending graph", ["user_id" => $userId,
+                                                "session_id" => $sessionId]);
+
         $sessionLog = $this->getSessionLog($userId, $sessionId);
         $sessionLog->addGraph($graph);
         $this->writeSessionLog($sessionLog);
@@ -62,10 +67,12 @@ class SessionRepository extends AbstractRepository {
     }
 
     public function getMetaLog(int $userId): MetaSessionLog {
+        $this->logger->info("getting meta log", ["user_id" => $userId]);
+
         $logPath = $this->getMetaLogPath($userId);
         if (!file_exists($logPath))
-            throw new NoMetaLogException(
-                "User with id $userId does not have any sessions");
+            throw new NotFoundException(
+                "User with id=$userId does not have any sessions");
         $array = json_decode(file_get_contents($logPath), TRUE);
         return new MetaSessionLog(
             intval($array["user_id"]),
@@ -73,10 +80,15 @@ class SessionRepository extends AbstractRepository {
     }
 
     public function getSessionLog(int $userId, int $sessionId): SessionLog {
+        $this->logger->info("getting session log",
+                            ["user_id" => $userId, "session_id" => $sessionId]);
+
         $logPath = $this->getSessionLogPath($userId, $sessionId);
-        if (!file_exists($logPath))
-            throw new NoSessionLogException(
-                "User $userId does not have a session with id $sessionId");
+        if (!file_exists($logPath)) {
+            $message = "User with id=$userId does not have a session "
+                     . "with id=$sessionId";
+            throw new NotFoundException($message);
+        }
         $array = json_decode(file_get_contents($logPath), TRUE);
         return new SessionLog(
             intval($array["session_id"]),
@@ -88,6 +100,8 @@ class SessionRepository extends AbstractRepository {
     }
 
     protected function createMetaLog(int $userId): MetaSessionLog {
+        $this->logger->info("creating meta log", ["user_id" => $userId]);
+
         return new MetaSessionLog($userId);
     }
 
@@ -97,17 +111,28 @@ class SessionRepository extends AbstractRepository {
         int $markingId,
         int $sessionId
     ): SessionLog {
+        $this->logger->info("creating new session log",
+                            ["user_id"     => $userId,
+                             "petrinet_id" => $petrinetId,
+                             "marking_id"  => $markingId,
+                             "session_id"  => $sessionId]);
+
         return new SessionLog($sessionId, $userId, $petrinetId, $markingId);
     }
 
     protected function writeMetaLog(MetaSessionLog $log): void {
         $path = $this->getMetaLogPath($log->getUserId());
         file_put_contents($path, json_encode($log), LOCK_EX);
+
+        $this->logger->info("wrote meta log", ["user_id", $log->getUserId()]);
     }
 
     protected function writeSessionLog(SessionLog $log): void {
         $path = $this->getSessionLogPath($log->getUserId(), $log->getSessionId());
         file_put_contents($path, json_encode($log), LOCK_EX);
+
+        $this->logger->info("wrote session log", ["user_id"    => $log->getUserId(),
+                                                  "session_id" => $log->getSessionId()]);
     }
 
     protected function getMetaLogPath(int $userId) {

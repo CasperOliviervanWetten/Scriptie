@@ -8,45 +8,29 @@ use Ds\Hashable;
 use JsonSerializable;
 
 class Place implements PetrinetElementInterface, JsonSerializable, Hashable {
-    public $id;
-    protected $coordinates;
-    protected $label;
+    protected $name;
 
-    public function __construct(string $id, array $coordinates=[NULL,NULL], string $label=NULL) {
-        $this->id = $id;
-        $this->coordinates = $coordinates;
-        $this->label = $label;
+    public function __construct(string $name) {
+        $this->name = $name;
     }
 
-    public function getID(): string {
-        return $this->id;
-    }
-
-    public function getCoordinates(): array {
-        return $this->coordinates;
-    }
-
-    public function getLabel(): ?string {
-        return $this->label;
+    public function getName(): string {
+        return $this->name;
     }
 
     public function hash() {
-        return $this->getID();
+        return $this->getName();
     }
 
     public function equals($obj): bool {
-        return $this->getID() === $obj->getID();
-    }
-
-    public function getArray(): array {
-        return array($this->getID(), $this->getCoordinates(), $this->getLabel());
+        return $this->getName() === $obj->getName();
     }
 
     public function jsonSerialize(): mixed {
-        return $this->getID();
+        return $this->getName();
     }
 
     public function __toString() {
-        return $this->getID();
+        return $this->getName();
     }
 }

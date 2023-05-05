@@ -2,9 +2,6 @@
 
 namespace Cora\Repository;
 
-use Cora\Utils\Printer;
-use Cora\Utils\PdoDebug;
-
 use Cora\Domain\Petrinet\PetrinetInterface as IPetrinet;
 use Cora\Domain\Petrinet\PetrinetBuilder as PetrinetBuilder;
 use Cora\Domain\Petrinet\Place\Place;
@@ -25,17 +22,11 @@ use Exception;
 use PDO;
 
 class PetrinetRepository extends AbstractRepository {
-    private $printer;
-    private $pdoD;
-
-    public function __construct(PDO $db, Printer $printer) {
-        parent::__construct($db);
-        $this->printer = $printer;
-        $this->pdoD = new PdoDebug;
-    } 
-
     public function getPetrinet($id): ?IPetrinet {
-        if (!$this->petrinetExists($id)){return NULL;}
+        $this->logger->info("getting petri net", ["id" => $id]);
+
+        if (!$this->petrinetExists($id))
+            return NULL;
         $builder = new PetrinetBuilder();
         $builder->addPlaces($this->getPlaces($id));
         $builder->addTransitions($this->getTransitions($id));
@@ -45,25 +36,31 @@ class PetrinetRepository extends AbstractRepository {
     }
 
     public function getMarking(int $mid, IPetrinet $p): ?IMarking {
-        if (!$this->markingExists($mid))
+        $this->logger->info("getting marking", ["id" => $mid]);
+
+        if (!$this->markingExists($mid)) {
+            $this->logger->error("Unable to retrieve marking", ["id" => $mid]);
             return NULL;
+        }
 
         $query = sprintf(
-            "SELECT `place`, `tokens`, `coordx`, `coordy` FROM %s WHERE marking = :mid",
+            "SELECT `place`, `tokens` FROM %s WHERE marking = :mid",
             $_ENV['PETRINET_MARKING_PAIR_TABLE']);
         $statement = $this->db->prepare($query);
         $statement->execute([":mid" => $mid]);
         $builder = new MarkingBuilder();
         foreach($statement->fetchAll() as $row) {
+            $place = new Place($row["place"]);
             $tokens = new IntegerTokenCount(intval($row["tokens"]));
-            $coordinates = [$row["coordx"], $row["coordy"]];
-            $place = new Place($row["place"], $coordinates);
             $builder->assign($place, $tokens);
         }
         return $builder->getMarking($p);
     }
 
     public function getMarkings(int $pid) {
+        $this->logger->info("getting all markings for petrinet",
+                            ["petrinet_id" => $pid]);
+
         $query = sprintf(
             "SELECT `id` FROM %s WHERE `petrinet` = :pid",
             $_ENV['PETRINET_MARKING_TABLE']);
@@ -73,6 +70,9 @@ class PetrinetRepository extends AbstractRepository {
     }
 
     public function getPetrinets(int $limit = 0, int $offset = 0) {
+        $this->logger->info("getting petri nets",
+                            ["limit" => $limit, "offset" => $offset]);
+
         $query = sprintf("SELECT `id`, `name` FROM %s",
                          $_ENV['PETRINET_TABLE']);
         if ($limit > 0)
@@ -84,14 +84,26 @@ class PetrinetRepository extends AbstractRepository {
         return $statement->fetchAll();
     }
 
-    public function saveMarkedPetrinet(IPetrinet $pet, ?IMarking $marking, $user, ?string $name=NULL): 
-    MarkedPetrinetRegisteredResult {
+    public function saveMarkedPetrinet(
+        IPetrinet $pet,
+        IMarking $marking,
+        $user,
+        ?string $name=NULL
+    ): MarkedPetrinetRegisteredResult {
+        $this->logger->info("saving marked petri net");
+
         $petrinetId = $this->savePetrinet($pet, $user, $name);
         $markingId = $this->saveMarking($marking, $petrinetId);
         return new MarkedPetrinetRegisteredResult($petrinetId, $markingId);
     }
 
-    public function savePetrinet(IPetrinet $petrinet, $user, ?string $name=NULL): int {
+    public function savePetrinet(
+        IPetrinet $petrinet,
+        $user,
+        ?string $name=NULL
+    ): int {
+        $this->logger->info("saving petri net", ["name" => $name]);
+
         $this->db->beginTransaction();
         if (is_null($name))
             $name = sprintf("%s-%s", $user, date("Y-m-d-H:i:s"));
@@ -118,6 +130,8 @@ class PetrinetRepository extends AbstractRepository {
     }
 
     public function saveMarking(IMarking $marking, int $pid) {
+        $this->logger->info("saving marking", ["petrinet_id" => $pid]);
+
         // insert meta information
         $query = sprintf("INSERT INTO %s (`petrinet`) VALUES (:pid)",
                          $_ENV['PETRINET_MARKING_TABLE']);
@@ -127,22 +141,15 @@ class PetrinetRepository extends AbstractRepository {
         $markingId = $this->db->lastInsertId();
         // insert place-token pairs
         $values = [];
-        foreach($marking->places() as $place){
-            $temp = sprintf("(:mid, :%sp, :%st, :%sx, :%sy)", $place, $place, $place, $place);
-            array_push($values, $temp);           
-        }
-        $query = sprintf("INSERT INTO %s (`marking`, `place`, `tokens`, `coordx`, `coordy`) VALUES %s",
-            $_ENV['PETRINET_MARKING_PAIR_TABLE'], implode(", ", $values));        
+        foreach($marking->places() as $place)
+            array_push($values, sprintf("(:mid, :%sp, :%st)", $place, $place));
+        $query = sprintf("INSERT INTO %s (`marking`, `place`, `tokens`) VALUES %s",
+                         $_ENV['PETRINET_MARKING_PAIR_TABLE'], implode(", ", $values));
         $statement = $this->db->prepare($query);
         $statement->bindValue(":mid", $markingId);
         foreach($marking as $place => $tokens) {
-            $coordX = strstr($place->getCoordinates()[0], '.', true);
-            $coordY = strstr($place->getCoordinates()[1], '.', true);
-            
             $statement->bindValue(sprintf(":%sp", $place), $place, PDO::PARAM_STR);
             $statement->bindValue(sprintf(":%st", $place), $tokens, PDO::PARAM_STR);
-            $statement->bindValue(sprintf(":%sx", $place), $coordX, PDO::PARAM_STR);
-            $statement->bindValue(sprintf(":%sy", $place), $coordY, PDO::PARAM_STR);
         }
         $statement->execute();
         return $markingId;
@@ -165,39 +172,38 @@ class PetrinetRepository extends AbstractRepository {
     }
 
     protected function getPlaces(int $id): PlaceContainerInterface {
+        $this->logger->info("getting places", ["petrinet_id" => $id]);
+
         $places = new PlaceContainer();
-        $query = sprintf("SELECT `name`, `label`, `coordX`, `coordY` FROM %s WHERE petrinet = :pid",
+        $query = sprintf("SELECT `name` FROM %s WHERE petrinet = :pid",
                          $_ENV['PETRINET_PLACE_TABLE']);
         $statement = $this->db->prepare($query);
         $statement->execute([":pid" => $id]);
         foreach($statement->fetchAll() as $row) {
-            $name = $row["name"];
-            $label = preg_replace('~_~', ' ', $row["label"]);
-            $coordinates = [$row["coordX"], $row["coordY"]];
-            $place = new Place($name, $coordinates, $label);
+            $place = new Place($row["name"]);
             $places->add($place);
         }
         return $places;
     }
-    
+
     protected function getTransitions(int $id): TransitionContainerInterface {
+        $this->logger->info("getting transitions", ["petrinet_id" => $id]);
+
         $transitions = new TransitionContainer();
-        $query = sprintf("SELECT `name`, `label`, `coordX`, `coordY` FROM %s WHERE petrinet = :pid",
-                    $_ENV['PETRINET_TRANSITION_TABLE']);
+        $query = sprintf("SELECT `name` FROM %s WHERE petrinet = :pid",
+                         $_ENV['PETRINET_TRANSITION_TABLE']);
         $statement = $this->db->prepare($query);
         $statement->execute([":pid" => $id]);
         foreach($statement->fetchAll() as $row) {
-            //prepare the fetched data to create a new Place object
-            $name = $row["name"];
-            $label = preg_replace('~_~', ' ', $row["label"]); 
-            $coordinates = [$row["coordX"], $row["coordY"]];
-            $transition = new Transition($name, $coordinates, $label);
+            $transition = new Transition($row["name"]);
             $transitions->add($transition);
         }
         return $transitions;
     }
 
     protected function getFlows(int $id): FlowMapInterface {
+        $this->logger->info("getting flows", ["petrinet_id" => $id]);
+
         $flowMap = new FlowMap();
         $fromCol   = "from_element";
         $toCol     = "to_element";
@@ -229,79 +235,39 @@ class PetrinetRepository extends AbstractRepository {
         return $flowMap;
     }
 
-    protected function savePlaces(IPetrinet $petrinet, int $pid) {
-        //Get all places
+    protected function savePlaces(IPetrinet $petrinet, int $id) {
+        $this->logger->info("saving places", ["petrinet_id" => $id]);
+
         $places = $petrinet->getPlaces();
-        //Create the query placeholder
         $values = implode(", ", array_map(function($place) {
-            return sprintf("(:pid, :%sname, :%slabel, :%scoordX, :%scoordY)", 
-            $place->getID(),
-            //Replace all ' ' items in the string with '_'
-            preg_replace('/\s+/', '_', $place->getLabel()),
-            //Get the individual coords, and cut them off after the .
-            strstr($place->getCoordinates()[0], '.', true),           
-            strstr($place->getCoordinates()[1], '.', true)           
-            ); 
-            }, 
-            $places->toArray()));
-        //Write the query
-        $query = sprintf("INSERT INTO %s (`petrinet`, `name`, `label`, `coordX`, `coordY`) VALUES %s",
+            return sprintf("(:pid, :%sname)", $place); }, $places->toArray()));
+        $query = sprintf("INSERT INTO %s (`petrinet`, `name`) VALUES %s",
                          $_ENV['PETRINET_PLACE_TABLE'], $values);
         $statement = $this->db->prepare($query);
-        //Bind the $pid (petrinet ID number) to the query
-        $statement->bindParam(":pid", $pid, PDO::PARAM_INT);
-        //For each place in the array of places, grab each individual attribute (and the split coords) in the
-        //same format as above, and bind them to their own query
-        foreach($places as $place){
-            //prepare the data
-            $underscoredLabel = preg_replace('/\s+/', '_', $place->getLabel());
-            $coordX = strstr($place->getCoordinates()[0], '.', true);
-            $coordY = strstr($place->getCoordinates()[1], '.', true);
-            //bind the values
-            $statement->bindValue(sprintf(":%sname", $place->getID()), $place->getID(), PDO::PARAM_STR);
-            $statement->bindValue(sprintf(":%slabel", $underscoredLabel), $underscoredLabel, PDO::PARAM_STR);
-            $statement->bindValue(sprintf(":%scoordX", $coordX), $coordX, PDO::PARAM_STR);
-            $statement->bindValue(sprintf(":%scoordY", $coordY), $coordY, PDO::PARAM_STR);
-        }        
+        $statement->bindParam(":pid", $id, PDO::PARAM_INT);
+        foreach($places as $place)
+            $statement->bindValue(sprintf(":%sname", $place), $place, PDO::PARAM_STR);
         $statement->execute();
-
-
     }
 
     protected function saveTransitions(IPetrinet $petrinet, int $id) {
+        $this->logger->info("saving transitions", ["petrinet_id" => $id]);
+
         $transitions = $petrinet->getTransitions();
-
         $values = implode(", ", array_map(function($trans) {
-            return sprintf("(:pid, :%sname, :%slabel, :%scoordX, :%scoordY)", 
-            $trans->getID(),
-            //Replace all ' ' items in the string with '_'
-            preg_replace('/\s+/', '_', $trans->getLabel()),
-            //Get the individual coords, and cut them off after the .
-            strstr($trans->getCoordinates()[0], '.', true),           
-            strstr($trans->getCoordinates()[1], '.', true)           
-            ); 
-            }, 
-            $transitions->toArray()));
-
-            $query = sprintf("INSERT INTO %s (`petrinet`, `name`, `label`, `coordX`, `coordY`) VALUES %s",
+            return sprintf("(:pid, :%sname)", $trans); }, $transitions->toArray()));
+        $query = sprintf("INSERT INTO %s (`petrinet`, `name`) VALUES %s",
                          $_ENV['PETRINET_TRANSITION_TABLE'], $values);
         $statement = $this->db->prepare($query);
         $statement->bindParam(":pid", $id, PDO::PARAM_INT);
-        foreach($transitions as $trans){
-            //prepare the data
-            $underscoredLabel = preg_replace('/\s+/', '_', $trans->getLabel());
-            $coordX = strstr($trans->getCoordinates()[0], '.', true);
-            $coordY = strstr($trans->getCoordinates()[1], '.', true);
-            //bind the values
-            $statement->bindValue(sprintf(":%sname", $trans->getID()), $trans->getID(), PDO::PARAM_STR);
-            $statement->bindValue(sprintf(":%slabel", $underscoredLabel), $underscoredLabel, PDO::PARAM_STR);
-            $statement->bindValue(sprintf(":%scoordX", $coordX), $coordX, PDO::PARAM_STR);
-            $statement->bindValue(sprintf(":%scoordY", $coordY), $coordY, PDO::PARAM_STR);
-        } 
+        foreach($transitions as $trans)
+            $statement->bindValue(sprintf(":%sname", $trans), $trans, PDO::PARAM_STR);
         $statement->execute();
     }
 
     protected function saveFlows(IPetrinet $petrinet, int $id) {
+        $this->logger->info("saving flows", ["petrinet_id" => $id]);
+
         $places = $petrinet->getPlaces();
         $transitions = $petrinet->getTransitions();
         $flows = $petrinet->getFlows();

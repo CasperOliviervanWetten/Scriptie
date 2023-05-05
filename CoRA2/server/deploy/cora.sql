@@ -81,9 +81,7 @@ CREATE TABLE `petrinet_marking` (
 CREATE TABLE `petrinet_marking_pair` (
   `marking` int(11) NOT NULL,
   `place` varchar(80) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `tokens` int(11) NOT NULL,
-  `coordx` varchar(80) COLLATE utf8mb4_unicode_ci NULL,
-  `coordy` varchar(80) COLLATE utf8mb4_unicode_ci NULL
+  `tokens` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -94,10 +92,7 @@ CREATE TABLE `petrinet_marking_pair` (
 
 CREATE TABLE `petrinet_place` (
   `petrinet` int(11) NOT NULL,
-  `name` varchar(80) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `label` varchar(80) COLLATE utf8mb4_unicode_ci NULL,
-  `coordx` varchar(80) COLLATE utf8mb4_unicode_ci NULL,
-  `coordy` varchar(80) COLLATE utf8mb4_unicode_ci NULL
+  `name` varchar(80) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -108,10 +103,7 @@ CREATE TABLE `petrinet_place` (
 
 CREATE TABLE `petrinet_transition` (
   `petrinet` int(11) NOT NULL,
-  `name` varchar(80) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `label` varchar(80) COLLATE utf8mb4_unicode_ci NULL,
-  `coordx` varchar(80) COLLATE utf8mb4_unicode_ci NULL,
-  `coordy` varchar(80) COLLATE utf8mb4_unicode_ci NULL
+  `name` varchar(80) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------

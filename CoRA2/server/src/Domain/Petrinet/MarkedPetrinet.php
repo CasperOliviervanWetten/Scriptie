@@ -9,7 +9,7 @@ class MarkedPetrinet implements MarkedPetrinetInterface {
     private $petrinet;
     private $marking;
 
-    public function __construct(Petrinet $p, ?Marking $m) {
+    public function __construct(Petrinet $p, Marking $m) {
         $this->petrinet = $p;
         $this->marking = $m;
     }
@@ -18,7 +18,7 @@ class MarkedPetrinet implements MarkedPetrinetInterface {
         return $this->petrinet;
     }
 
-    public function getMarking(): ?Marking {
+    public function getMarking(): Marking {
         return $this->marking;
     }
 

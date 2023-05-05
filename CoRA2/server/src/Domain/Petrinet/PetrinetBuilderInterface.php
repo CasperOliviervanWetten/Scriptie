@@ -19,6 +19,6 @@ interface PetrinetBuilderInterface {
     public function addFlows(FlowMap $flows): void;
     public function getPetrinet(): Petrinet;
 
-    public function getPlace(string $place): ?Place;
-    public function getTransition(string $trans): ?Transition;
+    public function hasPlace(string $place): bool;
+    public function hasTransition(string $trans): bool;
 }

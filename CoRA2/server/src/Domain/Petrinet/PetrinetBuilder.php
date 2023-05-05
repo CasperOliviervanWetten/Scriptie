@@ -13,7 +13,7 @@ use Cora\Domain\Petrinet\Flow\FlowInterface as IFlow;
 use Cora\Domain\Petrinet\Flow\FlowMap;
 use Cora\Domain\Petrinet\Flow\FlowMapInterface;
 
-use Exception;
+use Cora\Exception\BadInputException;
 
 class PetrinetBuilder implements PetrinetBuilderInterface {
     protected $places;
@@ -64,30 +64,22 @@ class PetrinetBuilder implements PetrinetBuilderInterface {
                   $this->places->contains($from) && $this->transitions->contains($to)) &&
                 !($from instanceof Transition && $to instanceof Place &&
                   $this->transitions->contains($from) && $this->places->contains($to)))
-                throw new Exception(
-                    "At least one flow has an element that has not been added " .
-                    "to the transitions or places"
+                throw new BadInputException(
+                    "At least one flow has an element that has not been " .
+                    "added to the transitions or places"
                 );
         }
         $petrinet = new Petrinet($places, $transitions, $flowMap);
         return $petrinet;
     }
 
-    public function getPlace(string $id): ?Place {
-        foreach ($this->places as $place){
-            if ($place->getID() == $id){
-                return $place;
-            }
-        }
-    return NULL;
+    public function hasPlace(string $place): bool {
+        $place = new Place($place);
+        return $this->places->contains($place);
     }
 
-    public function getTransition(string $id): ?Transition {
-        foreach ($this->transitions as $transition){
-            if ($transition->getID() == $id){
-                return $transition;
-            }
-        }
-    return NULL;
+    public function hasTransition(string $transition): bool {
+        $trans = new Transition($transition);
+        return $this->transitions->contains($trans);
     }
 }

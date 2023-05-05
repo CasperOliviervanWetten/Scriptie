@@ -1,31 +1,14 @@
 version: "3.9"
 
 services:
-  # tool to inspect databases
-  # connect with following credentials
-  # server: database
-  # user: root
-  # pass: secret
-  # database: cora
-  adminer:
-    image: adminer
-    restart: unless-stopped
-    ports:
-      - 9001:8080
-    depends_on:
-      - database
-      - back_end
-
-  # the backend itself
   back_end:
     build: .
     ports:
-      - "7000:80"
+      - "8000:80"
     volumes:
       - ./:/var/www/html
       - log_volume:/var/www/html/log/
 
-  # the database
   database:
     image: mariadb
     restart: unless-stopped

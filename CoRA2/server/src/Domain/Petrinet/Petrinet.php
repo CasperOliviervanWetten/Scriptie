@@ -2,8 +2,6 @@
 
 namespace Cora\Domain\Petrinet;
 
-use Cora\Utils\Printer;
-
 use Cora\Domain\Petrinet\PetrinetElementInterface as IElement;
 use Cora\Domain\Petrinet\Place\PlaceContainerInterface as IPlaces;
 use Cora\Domain\Petrinet\Transition\Transition;
@@ -21,15 +19,15 @@ class Petrinet implements PetrinetInterface {
     protected $places;
     protected $transitions;
     protected $flows;
-    protected $printer;
 
-    public function __construct (IPlaces $p, ITransitions $t, IFlows $f)
+    public function __construct (
+        IPlaces $p,
+        ITransitions $t,
+        IFlows $f)
     {
         $this->places = $p;
         $this->transitions = $t;
         $this->flows = $f;
-        $this->printer = new Printer;
-
     }
 
     public function enabled(IMarking $marking, Transition $t): bool {

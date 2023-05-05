@@ -1,15 +1,21 @@
 <?php
 
 use Psr\Container\ContainerInterface;
+use Psr\Log\LoggerInterface;
 
 use Slim\Factory\AppFactory;
 use Slim\Exception\HttpNotFoundException;
 
 use DI\Container;
 
-use Tuupola\Middleware\CorsMiddleware;
+use Monolog\Logger;
+use Monolog\Level as LogLevel;
+use Monolog\Handler\StreamHandler;
+use Monolog\Formatter\LineFormatter;
 
-use Cora\Repository;
+use Tuupola\Middleware\CorsMiddleware;
+use Cora\Middleware\HttpErrorMiddleware;
+
 use Cora\Handler;
 use Cora\Utils;
 
@@ -28,11 +34,20 @@ $app = AppFactory::create();
  */
 $container = $app->getContainer();
 
-$container->set(\PDO::class, function(ContainerInterface $container) {
+$container->set(\PDO::class, function(ContainerInterface $c) {
     $dsn  = $_ENV['DSN'];
     $user = $_ENV['DB_USER'];
     $pass = $_ENV['DB_PASS'];
     return Utils\DatabaseUtils::connect($dsn, $user, $pass);
+});
+
+$container->set(LoggerInterface::class, function(ContainerInterface $c) {
+    $logger = new Logger('logger');
+    $formatter = new LineFormatter();
+    $streamHandler = new StreamHandler('log/production.log');
+    $streamHandler->setFormatter($formatter);
+    $logger->pushHandler($streamHandler);
+    return $logger;
 });
 
 /**************************************
@@ -41,9 +56,18 @@ $container->set(\PDO::class, function(ContainerInterface $container) {
 
 $app->addBodyParsingMiddleware();
 $app->addRoutingMiddleware();
-$app->addErrorMiddleware(true, true, true);
 
-$app->add(new CorsMiddleware([
+$errorHandlerMiddleware = new HttpErrorMiddleware(
+    $app->getCallableResolver(),
+    $app->getResponseFactory(),
+    false,
+    true,
+    true,
+    $container->get(LoggerInterface::class)
+);
+$app->addMiddleware($errorHandlerMiddleware);
+
+$app->addMiddleware(new CorsMiddleware([
     "origin"        => ["*"],
     "methods"       => ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
     "headers.allow" => ["Content-Type", "Accept", "Origin",

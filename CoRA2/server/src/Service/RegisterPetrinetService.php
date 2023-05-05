@@ -5,7 +5,6 @@ namespace Cora\Service;
 use Psr\Http\Message\UploadedFileInterface as File;
 
 use Cora\Converter\LolaToPetrinet;
-use Cora\Converter\PnmlToPetrinet;
 use Cora\Converter\PetrinetTranslator;
 use Cora\Repository\UserRepository;
 use Cora\Repository\PetrinetRepository;
@@ -24,28 +23,16 @@ class RegisterPetrinetService {
         if (!is_null($error))
             return new RegistrationResult(NULL, NULL, false, $error);
 
-        $contents = $file->getStream()->getContents();
-        $extension = pathinfo($file->getClientFilename(), PATHINFO_EXTENSION);
-        
-        if ($extension == "lola"){
-            $converter = new LolaToPetrinet($contents);
-            $marked = $converter->convert();
-        }
-
-        if ($extension == "pnml"){
-            $converter = new PnmlToPetrinet($contents);
-            $marked = $converter->convert();
-        }
-
-        $translate = false;
+        $lola = $file->getStream()->getContents();
+        $converter = new LolaToPetrinet($lola);
+        $marked = $converter->convert();
+        $translate = true;
         if ($translate) {
             $translator = new PetrinetTranslator($marked);
             $marked = $translator->convert();
         }
-
-
         $result = $this->petrinetRepository->saveMarkedPetrinet(
-            $marked->getPetrinet(), 
+            $marked->getPetrinet(),
             $marked->getMarking(),
             $userId);
         $pid = $result->getPetrinetId();
@@ -62,8 +49,8 @@ class RegisterPetrinetService {
             return $message = FileUploadUtils::getErrorMessage($error);
 
         $extension = pathinfo($file->getClientFilename(), PATHINFO_EXTENSION);
-        if ($extension != "lola" && $extension != "pnml")
-             return "Please upload either a .lola, or a .pnml \r\n";
+        if ($extension != "lola")
+             return "Only files with a lola extension are accepted";
     }
 }
 

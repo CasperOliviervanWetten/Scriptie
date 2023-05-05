@@ -2,8 +2,6 @@
 
 namespace Cora\Handler\Feedback;
 
-use Cora\Utils\Printer;
-
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use Slim\Exception\HttpBadRequestException;
@@ -16,11 +14,11 @@ use Cora\View\Factory\FeedbackViewFactory;
 class CoverabilityFeedback extends AbstractHandler {
     public function handle(Request $request, Response $response, $args) {
         $parsedBody = $request->getParsedBody();
-    
+
         $userId = $parsedBody["user_id"] ?? NULL;
         if (is_null($userId))
             throw new HttpBadRequestException(
-                $request, "No user id provxided");
+                $request, "No user id provided");
 
         $sessionId = $parsedBody["session_id"] ?? NULL;
         if (is_null($sessionId))

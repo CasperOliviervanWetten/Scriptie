@@ -5,5 +5,5 @@ namespace Cora\Domain\Petrinet;
 use Ds\Hashable;
 
 interface PetrinetElementInterface extends Hashable {
-    public function getID(): string;
+    public function getName(): string;
 }
