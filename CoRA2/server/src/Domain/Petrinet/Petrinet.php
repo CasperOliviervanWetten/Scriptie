@@ -79,18 +79,23 @@ class Petrinet implements PetrinetInterface {
     public function preset(IElement $e): PrePostSetMap {
         $flows = $this->flows;
         $map = new PrePostSetMap();
-        foreach($flows as $flow => $weight)
-            if ($flow->getTo() == $e)
-                $map->put($flow->getFrom(), $weight);
+        foreach($flows as $flow => $weight){
+            if ($flow->getTo()->getID() == $e->getID()){
+                $map->put($flow->getFrom(), $weight);       
+            }
+        }
+
         return $map;
     }
 
     public function postset(IElement $e): PrePostSetMap {
         $flows = $this->flows;
         $map = new PrePostSetMap();
-        foreach($flows as $flow => $weight)
-            if ($flow->getFrom() == $e)
+        foreach($flows as $flow => $weight){
+            if ($flow->getFrom()->getID() == $e->getID()){
                 $map->put($flow->getTo(), $weight);
+            }
+        }
         return $map;
     }
 
