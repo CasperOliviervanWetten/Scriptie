@@ -38,7 +38,6 @@ class GetPetrinetImageService {
         $command = sprintf('echo %s | %s -Knop2 -Tsvg',
                            escapeshellarg($converter->convert()),
                            escapeshellcmd('dot'));
-        $this->printer->terminalLog($command);
         exec($command, $lines, $status);
         if ($status != 0)
             throw new Exception("Dot exited with non-zero status");
