@@ -2,6 +2,8 @@
 
 namespace Cora\SystemChecker;
 
+use Cora\Utils\Printer;
+
 use Cora\Domain\Feedback\Feedback;
 use Cora\Domain\Graph\GraphInterface as IGraph;
 use Cora\Domain\Petrinet\PetrinetInterface as IPetrinet;
@@ -55,8 +57,9 @@ class CheckCoverabilityGraph {
         // maintain a map marking -> Set<id> to find all the vertexes belonging
         // to a marking, to detect duplicates
         $discovered = new Map();
-        foreach($graph->getVertexes() as $marking) 
+        foreach($graph->getVertexes() as $marking){
             $discovered->put($marking, new Set());
+        }
         // init variables for bfs
         $grey  = new Set();
         $black = new Set();
@@ -174,7 +177,7 @@ class CheckCoverabilityGraph {
                         // correct of the label corresponds and firing
                         // the transition results in the loop marking.
                         $correctEdge = $correctPost &&
-                                     $t->getName() == $edge->getLabel() &&
+                                     $t->getID() == $edge->getLabel() &&
                                      $reachable->get($t)->equals($baseMarking) &&
                                      !$requireLoop;
                     }
