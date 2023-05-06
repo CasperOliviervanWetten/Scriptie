@@ -121,7 +121,7 @@ class PetrinetToDot extends Converter {
             if ($tokens instanceof IntegerTokenCount && $tokens->getValue() <= 0){
                 continue;
             }
-            $l = sprintf('%s [label="%s", ];', $place, $tokens);            
+            $l = sprintf('%s [label="%s"];', $place, $tokens);            
             array_push($result, $l);
         }
         return $result;
