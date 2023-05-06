@@ -90,36 +90,37 @@ class PnmlToPetrinet extends Converter {
             $sourceID = $flow->getAttribute('source');
             $targetID = $flow->getAttribute('target');
             $weight = intval($flow->getElementsByTagName('text')[0]->nodeValue);
-            
+            if($weight == 0){
+                $weight = 1;
+            }
+
             $target = $builder->getPlace($targetID) ?? $builder->getTransition($targetID);
             $source = $builder->getTransition($sourceID) ?? $builder->getPlace($sourceID);
 
             if ($place !== NULL && $transition !== NULL) {
-                $builder->addFlow(new Flow($target, $source), $weight);
+                $builder->addFlow(new Flow($source, $target), $weight);
             }
         }
 
         $petrinet = $builder->getPetrinet();
 
         // Parse initial marking
-        
-        $initialMarking = NULL;
+        $mBuilder = new MarkingBuilder();
         $places = $doc->getElementsByTagName('place');
         foreach ($places as $place) {
             $placeId = $place->getAttribute('id');
-
-            //
-            $initialMarking = $place->getElementsByTagName('initialMarkign');
-            if ($initialMarking !== null){
-                $marking = count($place->getElementsByTagName('token'));
-                $petriPlace = $builder->getPlace($placeId);
-
-                $text = $place->getElementsByTagName('text')[0]->nodeValue;
-
-                $mBuilder = new MarkingBuilder();
-                $mBuilder->assign($petriPlace, new IntegerTokenCount($marking));
+            $marking = count($place->getElementsByTagName('token'));
+            if ($marking == 0){
+                continue;
             }
-            $initialMarkingFinal = $mBuilder->getMarking($petrinet);
+
+            $petriPlace = $builder->getPlace($placeId);
+            $text = $place->getElementsByTagName('text')[0]->nodeValue;
+            $this->printer->terminalLog($petriPlace->getLabel());
+            $this->printer->terminalLog($marking);
+            $mBuilder->assign($petriPlace, new IntegerTokenCount($marking));
+
+        $initialMarkingFinal = $mBuilder->getMarking($petrinet);
         }
         return new MarkedPetrinet($petrinet, $initialMarkingFinal);
     }
