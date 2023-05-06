@@ -108,16 +108,10 @@ class PnmlToPetrinet extends Converter {
         $mBuilder = new MarkingBuilder();
         $places = $doc->getElementsByTagName('place');
         foreach ($places as $place) {
-            $placeId = $place->getAttribute('id');
             $marking = count($place->getElementsByTagName('token'));
-            if ($marking == 0){
-                continue;
-            }
-
+            if ($marking == 0){continue;} //if there is no marking, skip the loop
+            $placeId = $place->getAttribute('id');
             $petriPlace = $builder->getPlace($placeId);
-            $text = $place->getElementsByTagName('text')[0]->nodeValue;
-            $this->printer->terminalLog($petriPlace->getLabel());
-            $this->printer->terminalLog($marking);
             $mBuilder->assign($petriPlace, new IntegerTokenCount($marking));
 
         $initialMarkingFinal = $mBuilder->getMarking($petrinet);
