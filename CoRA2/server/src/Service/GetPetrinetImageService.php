@@ -35,9 +35,10 @@ class GetPetrinetImageService {
 
     protected function generateImage(IPetrinet $petrinet, ?IMarking $marking) {
         $converter = new PetrinetToDot($petrinet, $marking);
-        $command = sprintf('echo %s | %s -n2 -Tsvg',
+        $command = sprintf('echo %s | %s -Knop2 -Tsvg',
                            escapeshellarg($converter->convert()),
-                           escapeshellcmd('neato'));
+                           escapeshellcmd('dot'));
+        $this->printer->terminalLog($command);
         exec($command, $lines, $status);
         if ($status != 0)
             throw new Exception("Dot exited with non-zero status");
