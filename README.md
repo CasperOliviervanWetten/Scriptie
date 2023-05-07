@@ -101,6 +101,18 @@ CoRA returns the feedback values in .json format, this is just one example:
 ```
 The `"id"` value refers to the internal id of a state (so the first added state has id=0). The `"state"` is a string describing a marking, e.g. `"p1: 2"` describes p1 having 2 tokens. Any non-numeric y value for `px: y` is seen as an omega (unbounded).
 
+## TODO
+A todo list, as ordered and indicated by the MoSCoW system
+- (m) better error handling
+- - 'name already exists'
+- - 'file error'
+- - 'name error' 
+- - 'same transition/place ids'
+- (s) Clean non-alphanumeric characters from transition/place names
+- (s) Clean non-alphanumeric characters from person names names
+- (s) autogenerate transition/place ids if none are found/the same one is found multiple times
+- (c) 'Upload new file' inside the modeller
+
 
 ## Acknowledgements
 CMOD is built upon the [Vue framework](https://vuejs.org) and uses [Vuex](https://vuex.vuejs.org) for state management. In addition, CMOD makes use of [vue-class-component](https://github.com/vuejs/vue-class-component), [vue-property-decorator](https://github.com/kaorun343/vue-property-decorator), and [vuex-module-decorators](https://github.com/championswimmer/vuex-module-decorators). For the modeller CMOD uses [vue-multipane](https://github.com/yansern/vue-multipane) for the layout. [Vue-focus](https://github.com/simplesmiler/vue-focus) is used for setting focus.
