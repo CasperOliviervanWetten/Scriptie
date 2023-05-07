@@ -55,17 +55,18 @@ class PetrinetToDot extends Converter {
         foreach ($places as $place) {
             $id = $place->getID();
             $ids[] = $id;
-            $name = $place->getLabel() ?? $id;
+            $name = $place->getLabel();
 
             // Coordinates may or may not be null, so this bit checks if they are and creates a $makeup value
             $coordinates = $place->getCoordinates();
-            if(!is_null($coordinates)){
-                $coordx = $place->getCoordinates()[0];
-                $coordy = intval($place->getCoordinates()[1]);
-                $newCoordy = $coordy + intval(40);   
+            $coordx = $place->getCoordinates()[0];
+            $coordy = intval($place->getCoordinates()[1]);
+            $newCoordy = $coordy + intval(40); 
+            
+            if(!is_null($name)){  
                 $makeup = $id . ' [xlabel="' . $id .': ' .  $name . '", pos="' . implode(',', $coordinates) . '!", xlp="' . $coordx . ', ' . $newCoordy . '!"]';
             }else{  
-                $makeup = $id . ' [xlabel="' . $name . '"]';
+                $makeup = $id . ' [xlabel="' . $id .'", pos="' . implode(',', $coordinates) . '!", xlp="' . $coordx . ', ' . $newCoordy . '!"]';
             }
             $makeupArray[] = $makeup;
         }
