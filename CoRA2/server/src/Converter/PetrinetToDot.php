@@ -63,8 +63,9 @@ class PetrinetToDot extends Converter {
             $coordy = intval($place->getCoordinates()[1]);
             $newCoordy = $coordy + intval(40); 
             
-            if(!is_null($name)){  
-                $makeup = $id . ' [xlabel="' . $id .': ' .  $name . '", pos="' . implode(',', $coordinates) . '!", xlp="' . $coordx . ', ' . $newCoordy . '!"]';
+            //TODO: Fix the weird empty label bug 
+            if(is_int($name)){
+                $makeup = $id . ' [xlabel="' . $id .' ' .  $name . '", pos="' . implode(',', $coordinates) . '!", xlp="' . $coordx . ', ' . $newCoordy . '!"]';
             }else{  
                 $makeup = $id . ' [xlabel="' . $id .'", pos="' . implode(',', $coordinates) . '!", xlp="' . $coordx . ', ' . $newCoordy . '!"]';
             }
