@@ -47,6 +47,10 @@ class PnmlToPetrinet extends Converter {
             $coordinates = array($positionX, $positionY);
             //get the text via xpath
             $text = $place->getElementsByTagName('text')[0]->nodeValue;
+            if(is_int($text)){
+                //sometimes the $text accidentally grabs the initial marking value, this removes any int only text values
+                $text = NULL;
+            }
             //add the place
             $builder->addPlace(new Place($id, $coordinates, $text));
         }
