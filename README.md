@@ -108,6 +108,9 @@ A todo list, as ordered and indicated by the MoSCoW system
 - - 'file error'
 - - 'name error' 
 - - 'same transition/place ids'
+- (m) better scaling?
+- - less margin inside nodes
+- - less overlap labels/edges
 - (s) Clean non-alphanumeric characters from transition/place names
 - (s) Clean non-alphanumeric characters from person names names
 - (s) autogenerate transition/place ids if none are found/the same one is found multiple times
