@@ -1,5 +1,5 @@
 # CoRA - Coverability Reachability Analyzer
-CoRA is een intelligent lesgeef systeem, gemikt op het helpen bij het maken van Coverability en Reachability graven voro Petri netten.
+CoRA is een intelligent lesgeef systeem, gemikt op het helpen bij het maken van Coverability en Reachability graven voorPetri netten.
 
 CoRA heeft een aantal praktische features wat het ideaal maakt voor het maken van Reach- en Coverability graven:
 - .lola bestand support
@@ -111,6 +111,7 @@ A todo list, as ordered and indicated by the MoSCoW system
 - (m) better scaling?
 - - less margin inside nodes
 - - less overlap labels/edges
+- - disable the 'mirorring' that happens going from eclipse -> CoRA
 - (m) improved label handling, dont use colons if there is no label
 - (s) Clean non-alphanumeric characters from transition/place names
 - (s) Clean non-alphanumeric characters from person names names
