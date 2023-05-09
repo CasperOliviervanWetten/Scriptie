@@ -1,5 +1,5 @@
 # CoRA - Coverability Reachability Analyzer
-CoRA is een intelligent lesgeef systeem, gemikt op het helpen bij het maken van Coverability en Reachability graven voro Petri netten.
+CoRA is een intelligent lesgeef systeem, gemikt op het helpen bij het maken van Coverability en Reachability graven voorPetri netten.
 
 CoRA heeft een aantal praktische features wat het ideaal maakt voor het maken van Reach- en Coverability graven:
 - .lola bestand support
@@ -100,6 +100,24 @@ CoRA returns the feedback values in .json format, this is just one example:
 }
 ```
 The `"id"` value refers to the internal id of a state (so the first added state has id=0). The `"state"` is a string describing a marking, e.g. `"p1: 2"` describes p1 having 2 tokens. Any non-numeric y value for `px: y` is seen as an omega (unbounded).
+
+## TODO
+A todo list, as ordered and indicated by the MoSCoW system
+- (m) better error handling
+- - 'name already exists'
+- - 'file error'
+- - 'name error' 
+- - 'same transition/place ids'
+- (m) better scaling?
+- - less margin inside nodes
+- - less overlap labels/edges
+- - disable the 'mirorring' that happens going from eclipse -> CoRA
+- (m) improved label handling, dont use colons if there is no label
+- (s) Clean non-alphanumeric characters from transition/place names
+- (s) Clean non-alphanumeric characters from person names names
+- (s) autogenerate transition/place ids if none are found/the same one is found multiple times
+- (s) Graphviz file format support
+- (c) 'Upload new file' inside the modeller
 
 
 ## Acknowledgements
