@@ -46,13 +46,7 @@ class PnmlToPetrinet extends Converter {
             $positionY = $place->getElementsByTagName('position')->item(0)->getAttribute('y');    
             $coordinates = array($positionX, $positionY);
             //get the text via xpath
-            if(empty($place->getElementsByTagName('text')[0]) || is_int($place->getElementsByTagName('text')[0]->nodeValue)){
-                //sometimes the $text accidentally grabs the initial marking value (or nothing), this removes any int only text values
-                //TODO: This only works half?
-                $text = NULL;
-            }else{
-                $text = $place->getElementsByTagName('text')[0]->nodeValue;
-            }
+            $text = $place->getElementsByTagName('text')[0]->nodeValue;
             //add the place
             $builder->addPlace(new Place($id, $coordinates, $text));
         }
@@ -95,10 +89,9 @@ class PnmlToPetrinet extends Converter {
         foreach ($flows as $flow) {
             $sourceID = $flow->getAttribute('source');
             $targetID = $flow->getAttribute('target');
-            if(empty($place->getElementsByTagName('text')[0])){
+            $weight = intval($flow->getElementsByTagName('text')[0]->nodeValue);
+            if($weight == 0){
                 $weight = 1;
-            }else{
-                $weight = intval($flow->getElementsByTagName('text')[0]->nodeValue);
             }
 
             $target = $builder->getPlace($targetID) ?? $builder->getTransition($targetID);
