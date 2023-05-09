@@ -8,106 +8,113 @@
       <toolspecific tool="org.pnml.tools.epnk.diagraminfo" version="0.9.2">
         <diagram visible="true" type="PNMLCoreModel" element="pg1" name="Page pg1" measurementUnit="Pixel">
           <children xsi:type="notation:Shape" visible="true" type="2001" element="p1" fontColor="0" fontName="Noto Sans" fontHeight="9" bold="false" italic="false" underline="false" strikeThrough="false" description="" fillColor="16777215" transparency="-1" lineColor="11579568" lineWidth="-1" roundedBendpointsRadius="0">
-            <layoutConstraint xsi:type="notation:Bounds" x="520" y="110" width="-1" height="-1"/>
+            <layoutConstraint xsi:type="notation:Bounds" x="715" y="75" width="-1" height="-1"/>
           </children>
           <children xsi:type="notation:Shape" visible="true" type="2001" element="p3" fontColor="0" fontName="Noto Sans" fontHeight="9" bold="false" italic="false" underline="false" strikeThrough="false" description="" fillColor="16777215" transparency="-1" lineColor="11579568" lineWidth="-1" roundedBendpointsRadius="0">
-            <layoutConstraint xsi:type="notation:Bounds" x="475" y="345" width="-1" height="-1"/>
+            <layoutConstraint xsi:type="notation:Bounds" x="540" y="285" width="-1" height="-1"/>
           </children>
           <children xsi:type="notation:Shape" visible="true" type="2001" element="p2" fontColor="0" fontName="Noto Sans" fontHeight="9" bold="false" italic="false" underline="false" strikeThrough="false" description="" fillColor="16777215" transparency="-1" lineColor="11579568" lineWidth="-1" roundedBendpointsRadius="0">
-            <layoutConstraint xsi:type="notation:Bounds" x="575" y="230" width="-1" height="-1"/>
+            <layoutConstraint xsi:type="notation:Bounds" x="380" y="290" width="-1" height="-1"/>
           </children>
           <children xsi:type="notation:Shape" visible="true" type="2003" element="t1" fontColor="0" fontName="Noto Sans" fontHeight="9" bold="false" italic="false" underline="false" strikeThrough="false" description="" fillColor="16777215" transparency="-1" lineColor="11579568" lineWidth="-1" roundedBendpointsRadius="0">
-            <layoutConstraint xsi:type="notation:Bounds" x="475" y="235" width="-1" height="-1"/>
+            <layoutConstraint xsi:type="notation:Bounds" x="560" y="180" width="-1" height="-1"/>
           </children>
           <children xsi:type="notation:Shape" visible="true" type="2003" element="t2" fontColor="0" fontName="Noto Sans" fontHeight="9" bold="false" italic="false" underline="false" strikeThrough="false" description="" fillColor="16777215" transparency="-1" lineColor="11579568" lineWidth="-1" roundedBendpointsRadius="0">
-            <layoutConstraint xsi:type="notation:Bounds" x="665" y="160" width="-1" height="-1"/>
+            <layoutConstraint xsi:type="notation:Bounds" x="355" y="410" width="-1" height="-1"/>
           </children>
           <children xsi:type="notation:Shape" visible="true" type="2003" element="t3" fontColor="0" fontName="Noto Sans" fontHeight="9" bold="false" italic="false" underline="false" strikeThrough="false" description="" fillColor="16777215" transparency="-1" lineColor="11579568" lineWidth="-1" roundedBendpointsRadius="0">
-            <layoutConstraint xsi:type="notation:Bounds" x="656" y="343" width="-1" height="-1"/>
+            <layoutConstraint xsi:type="notation:Bounds" x="655" y="405" width="-1" height="-1"/>
           </children>
           <children visible="true" type="2009" element="//@net.0/@page.0/@labelproxy.0">
             <children xsi:type="notation:DecorationNode" visible="true" type="5004"/>
             <styles xsi:type="notation:DescriptionStyle" description=""/>
             <styles xsi:type="notation:FontStyle" fontColor="0" fontName="Noto Sans" fontHeight="9" bold="false" italic="false" underline="false" strikeThrough="false"/>
             <styles xsi:type="notation:FillStyle" fillColor="16777215" transparency="-1"/>
-            <layoutConstraint xsi:type="notation:Bounds" x="465" y="65" width="-1" height="-1"/>
+            <layoutConstraint xsi:type="notation:Bounds" x="700" y="175" width="-1" height="-1"/>
           </children>
           <children xsi:type="notation:Shape" visible="true" type="2001" element="p4" fontColor="0" fontName="Noto Sans" fontHeight="9" bold="false" italic="false" underline="false" strikeThrough="false" description="" fillColor="16777215" transparency="-1" lineColor="11579568" lineWidth="-1" roundedBendpointsRadius="0">
-            <layoutConstraint xsi:type="notation:Bounds" x="710" y="245" width="-1" height="-1"/>
+            <layoutConstraint xsi:type="notation:Bounds" x="520" y="405" width="-1" height="-1"/>
           </children>
           <children xsi:type="notation:Shape" visible="true" type="2001" element="p5" fontColor="0" fontName="Noto Sans" fontHeight="9" bold="false" italic="false" underline="false" strikeThrough="false" description="" fillColor="16777215" transparency="-1" lineColor="11579568" lineWidth="-1" roundedBendpointsRadius="0">
-            <layoutConstraint xsi:type="notation:Bounds" x="745" y="290" width="-1" height="-1"/>
+            <layoutConstraint xsi:type="notation:Bounds" x="785" y="410" width="-1" height="-1"/>
           </children>
           <children xsi:type="notation:Shape" visible="true" type="2001" element="p6" fontColor="0" fontName="Noto Sans" fontHeight="9" bold="false" italic="false" underline="false" strikeThrough="false" description="" fillColor="16777215" transparency="-1" lineColor="11579568" lineWidth="-1" roundedBendpointsRadius="0">
-            <layoutConstraint xsi:type="notation:Bounds" x="995" y="300" width="-1" height="-1"/>
+            <layoutConstraint xsi:type="notation:Bounds" x="940" y="370" width="-1" height="-1"/>
           </children>
           <children xsi:type="notation:Shape" visible="true" type="2003" element="t4" fontColor="0" fontName="Noto Sans" fontHeight="9" bold="false" italic="false" underline="false" strikeThrough="false" description="" fillColor="16777215" transparency="-1" lineColor="11579568" lineWidth="-1" roundedBendpointsRadius="0">
-            <layoutConstraint xsi:type="notation:Bounds" x="820" y="230" width="-1" height="-1"/>
+            <layoutConstraint xsi:type="notation:Bounds" x="675" y="515" width="-1" height="-1"/>
           </children>
           <children xsi:type="notation:Shape" visible="true" type="2003" element="t5" fontColor="0" fontName="Noto Sans" fontHeight="9" bold="false" italic="false" underline="false" strikeThrough="false" description="" fillColor="16777215" transparency="-1" lineColor="11579568" lineWidth="-1" roundedBendpointsRadius="0">
-            <layoutConstraint xsi:type="notation:Bounds" x="895" y="420" width="-1" height="-1"/>
+            <layoutConstraint xsi:type="notation:Bounds" x="800" y="325" width="-1" height="-1"/>
           </children>
           <children visible="true" type="2009" element="//@net.0/@page.0/@labelproxy.1">
             <children xsi:type="notation:DecorationNode" visible="true" type="5004"/>
             <styles xsi:type="notation:DescriptionStyle" description=""/>
             <styles xsi:type="notation:FontStyle" fontColor="0" fontName="Noto Sans" fontHeight="9" bold="false" italic="false" underline="false" strikeThrough="false"/>
             <styles xsi:type="notation:FillStyle" fillColor="16777215" transparency="-1"/>
-            <layoutConstraint xsi:type="notation:Bounds" x="650" y="430" width="-1" height="-1"/>
+            <layoutConstraint xsi:type="notation:Bounds" x="620" y="370" width="-1" height="-1"/>
           </children>
           <children visible="true" type="2009" element="//@net.0/@page.0/@labelproxy.2">
             <children xsi:type="notation:DecorationNode" visible="true" type="5004"/>
             <styles xsi:type="notation:DescriptionStyle" description=""/>
             <styles xsi:type="notation:FontStyle" fontColor="0" fontName="Noto Sans" fontHeight="9" bold="false" italic="false" underline="false" strikeThrough="false"/>
             <styles xsi:type="notation:FillStyle" fillColor="16777215" transparency="-1"/>
-            <layoutConstraint xsi:type="notation:Bounds" x="670" y="140" width="-1" height="-1"/>
+            <layoutConstraint xsi:type="notation:Bounds" x="395" y="465" width="-1" height="-1"/>
           </children>
           <children visible="true" type="2009" element="//@net.0/@page.0/@labelproxy.3">
             <children xsi:type="notation:DecorationNode" visible="true" type="5004"/>
             <styles xsi:type="notation:DescriptionStyle" description=""/>
             <styles xsi:type="notation:FontStyle" fontColor="0" fontName="Noto Sans" fontHeight="9" bold="false" italic="false" underline="false" strikeThrough="false"/>
             <styles xsi:type="notation:FillStyle" fillColor="16777215" transparency="-1"/>
-            <layoutConstraint xsi:type="notation:Bounds" x="835" y="195" width="-1" height="-1"/>
+            <layoutConstraint xsi:type="notation:Bounds" x="740" y="525" width="-1" height="-1"/>
           </children>
           <children visible="true" type="2009" element="//@net.0/@page.0/@labelproxy.4">
             <children xsi:type="notation:DecorationNode" visible="true" type="5004"/>
             <styles xsi:type="notation:DescriptionStyle" description=""/>
             <styles xsi:type="notation:FontStyle" fontColor="0" fontName="Noto Sans" fontHeight="9" bold="false" italic="false" underline="false" strikeThrough="false"/>
             <styles xsi:type="notation:FillStyle" fillColor="16777215" transparency="-1"/>
-            <layoutConstraint xsi:type="notation:Bounds" x="987" y="454" width="-1" height="-1"/>
+            <layoutConstraint xsi:type="notation:Bounds" x="735" y="295" width="-1" height="-1"/>
           </children>
           <children visible="true" type="2009" element="//@net.0/@page.0/@labelproxy.5">
             <children xsi:type="notation:DecorationNode" visible="true" type="5004"/>
             <styles xsi:type="notation:DescriptionStyle" description=""/>
             <styles xsi:type="notation:FontStyle" fontColor="0" fontName="Noto Sans" fontHeight="9" bold="false" italic="false" underline="false" strikeThrough="false"/>
             <styles xsi:type="notation:FillStyle" fillColor="16777215" transparency="-1"/>
-            <layoutConstraint xsi:type="notation:Bounds" x="375" y="180" width="-1" height="-1"/>
+            <layoutConstraint xsi:type="notation:Bounds" x="530" y="160" width="-1" height="-1"/>
           </children>
           <children xsi:type="notation:Shape" visible="true" type="2001" element="p7" fontColor="0" fontName="Noto Sans" fontHeight="9" bold="false" italic="false" underline="false" strikeThrough="false" description="" fillColor="16777215" transparency="-1" lineColor="11579568" lineWidth="-1" roundedBendpointsRadius="0">
-            <layoutConstraint xsi:type="notation:Bounds" x="780" y="430" width="-1" height="-1"/>
+            <layoutConstraint xsi:type="notation:Bounds" x="690" y="315" width="-1" height="-1"/>
           </children>
           <children xsi:type="notation:Shape" visible="true" type="2003" element="t6" fontColor="0" fontName="Noto Sans" fontHeight="9" bold="false" italic="false" underline="false" strikeThrough="false" description="" fillColor="16777215" transparency="-1" lineColor="11579568" lineWidth="-1" roundedBendpointsRadius="0">
-            <layoutConstraint xsi:type="notation:Bounds" x="1015" y="115" width="-1" height="-1"/>
+            <layoutConstraint xsi:type="notation:Bounds" x="770" y="235" width="-1" height="-1"/>
           </children>
           <children visible="true" type="2009" element="//@net.0/@page.0/@labelproxy.6">
             <children xsi:type="notation:DecorationNode" visible="true" type="5004"/>
             <styles xsi:type="notation:DescriptionStyle" description=""/>
             <styles xsi:type="notation:FontStyle" fontColor="0" fontName="Noto Sans" fontHeight="9" bold="false" italic="false" underline="false" strikeThrough="false"/>
             <styles xsi:type="notation:FillStyle" fillColor="16777215" transparency="-1"/>
-            <layoutConstraint xsi:type="notation:Bounds" x="1180" y="241" width="-1" height="-1"/>
+            <layoutConstraint xsi:type="notation:Bounds" x="805" y="195" width="-1" height="-1"/>
           </children>
           <children visible="true" type="2009" element="//@net.0/@page.0/@labelproxy.7">
             <children xsi:type="notation:DecorationNode" visible="true" type="5004"/>
             <styles xsi:type="notation:DescriptionStyle" description=""/>
             <styles xsi:type="notation:FontStyle" fontColor="0" fontName="Noto Sans" fontHeight="9" bold="false" italic="false" underline="false" strikeThrough="false"/>
             <styles xsi:type="notation:FillStyle" fillColor="16777215" transparency="-1"/>
-            <layoutConstraint xsi:type="notation:Bounds" x="825" y="510" width="-1" height="-1"/>
+            <layoutConstraint xsi:type="notation:Bounds" x="675" y="310" width="-1" height="-1"/>
           </children>
           <children visible="true" type="2009" element="//@net.0/@page.0/@labelproxy.8">
             <children xsi:type="notation:DecorationNode" visible="true" type="5004"/>
             <styles xsi:type="notation:DescriptionStyle" description=""/>
             <styles xsi:type="notation:FontStyle" fontColor="0" fontName="Noto Sans" fontHeight="9" bold="false" italic="false" underline="false" strikeThrough="false"/>
             <styles xsi:type="notation:FillStyle" fillColor="16777215" transparency="-1"/>
-            <layoutConstraint xsi:type="notation:Bounds" x="778" y="206" width="-1" height="-1"/>
+            <layoutConstraint xsi:type="notation:Bounds" x="475" y="380" width="-1" height="-1"/>
+          </children>
+          <children visible="true" type="2009" element="//@net.0/@page.0/@labelproxy.9">
+            <children xsi:type="notation:DecorationNode" visible="true" type="5004"/>
+            <styles xsi:type="notation:DescriptionStyle" description=""/>
+            <styles xsi:type="notation:FontStyle" fontColor="0" fontName="Noto Sans" fontHeight="9" bold="false" italic="false" underline="false" strikeThrough="false"/>
+            <styles xsi:type="notation:FillStyle" fillColor="16777215" transparency="-1"/>
+            <layoutConstraint xsi:type="notation:Bounds" x="970" y="565" width="-1" height="-1"/>
           </children>
           <styles xsi:type="notation:DiagramStyle" pageX="0" pageY="0" pageWidth="100" pageHeight="100" description=""/>
           <edges xsi:type="notation:Connector" visible="true" type="4001" element="//@net.0/@page.0/@object.6" source="//@net.0/@page.0/@toolspecific.0/@diagram/@children.0" target="//@net.0/@page.0/@toolspecific.0/@diagram/@children.3" roundedBendpointsRadius="0" routing="Manual" smoothness="None" avoidObstructions="false" closestDistance="false" jumpLinkStatus="None" jumpLinkType="Semicircle" jumpLinksReverse="false" lineColor="11579568" lineWidth="-1">
@@ -162,14 +169,14 @@
           </edges>
           <edges xsi:type="notation:Connector" visible="true" type="4001" element="//@net.0/@page.0/@object.22" source="//@net.0/@page.0/@toolspecific.0/@diagram/@children.9" target="//@net.0/@page.0/@toolspecific.0/@diagram/@children.11" roundedBendpointsRadius="0" routing="Manual" smoothness="None" avoidObstructions="false" closestDistance="false" jumpLinkStatus="None" jumpLinkType="Semicircle" jumpLinksReverse="false" lineColor="11579568" lineWidth="-1">
             <styles xsi:type="notation:FontStyle" fontColor="0" fontName="Noto Sans" fontHeight="9" bold="false" italic="false" underline="false" strikeThrough="false"/>
-            <bendpoints xsi:type="notation:RelativeBendpoints" points="[-20, 3, 176, -87]$[-125, 20, 71, -70]$[-191, 85, 5, -5]"/>
-            <targetAnchor xsi:type="notation:IdentityAnchor" id="(0.475,0.125)"/>
+            <bendpoints xsi:type="notation:RelativeBendpoints" points="[-19, -8, 65, 3]$[-56, -21, 28, -10]$[-80, -13, 4, -2]"/>
+            <targetAnchor xsi:type="notation:IdentityAnchor" id="(0.9,0.475)"/>
           </edges>
           <edges xsi:type="notation:Connector" visible="true" type="4001" element="//@net.0/@page.0/@object.23" source="//@net.0/@page.0/@toolspecific.0/@diagram/@children.11" target="//@net.0/@page.0/@toolspecific.0/@diagram/@children.9" roundedBendpointsRadius="0" routing="Manual" smoothness="None" avoidObstructions="false" closestDistance="false" jumpLinkStatus="None" jumpLinkType="Semicircle" jumpLinksReverse="false" lineColor="11579568" lineWidth="-1">
             <styles xsi:type="notation:FontStyle" fontColor="0" fontName="Noto Sans" fontHeight="9" bold="false" italic="false" underline="false" strikeThrough="false"/>
-            <bendpoints xsi:type="notation:RelativeBendpoints" points="[17, -6, -176, 95]$[127, -43, -66, 58]$[189, -99, -4, 2]"/>
+            <bendpoints xsi:type="notation:RelativeBendpoints" points="[17, 4, -60, 11]$[47, 12, -30, 19]$[77, -8, 0, -1]"/>
             <sourceAnchor xsi:type="notation:IdentityAnchor" id="(0.575,0.825)"/>
-            <targetAnchor xsi:type="notation:IdentityAnchor" id="(0.525,0.925)"/>
+            <targetAnchor xsi:type="notation:IdentityAnchor" id="(0.0,0.4)"/>
           </edges>
           <edges xsi:type="notation:Connector" visible="true" type="4004" source="//@net.0/@page.0/@toolspecific.0/@diagram/@children.13" target="//@net.0/@page.0/@toolspecific.0/@diagram/@children.4" roundedBendpointsRadius="0" routing="Manual" smoothness="None" avoidObstructions="false" closestDistance="false" jumpLinkStatus="None" jumpLinkType="Semicircle" jumpLinksReverse="false" lineColor="11579568" lineWidth="-1">
             <styles xsi:type="notation:FontStyle" fontColor="0" fontName="Noto Sans" fontHeight="9" bold="false" italic="false" underline="false" strikeThrough="false"/>
@@ -231,10 +238,6 @@
             <sourceAnchor xsi:type="notation:IdentityAnchor" id="(0.08130081300813008,0.058823529411764705)"/>
             <targetAnchor xsi:type="notation:IdentityAnchor" id="(0.574468085106383,0.38666666666666666)"/>
           </edges>
-          <edges xsi:type="notation:Connector" visible="true" type="4001" element="t1" source="//@net.0/@page.0/@toolspecific.0/@diagram/@children.3" target="//@net.0/@page.0/@toolspecific.0/@diagram/@children.2" roundedBendpointsRadius="0" routing="Manual" smoothness="None" avoidObstructions="false" closestDistance="false" jumpLinkStatus="None" jumpLinkType="Semicircle" jumpLinksReverse="false" lineColor="11579568" lineWidth="-1">
-            <styles xsi:type="notation:FontStyle" fontColor="0" fontName="Noto Sans" fontHeight="9" bold="false" italic="false" underline="false" strikeThrough="false"/>
-            <bendpoints xsi:type="notation:RelativeBendpoints" points="[20, -5, -80, 0]$[80, 0, -20, 5]"/>
-          </edges>
         </diagram>
         <labelProxy label="//@net.0/@page.0/@object.0/@initialMarking"/>
         <labelProxy label="//@net.0/@page.0/@object.5/@name"/>
@@ -245,17 +248,18 @@
         <labelProxy label="//@net.0/@page.0/@object.25/@name"/>
         <labelProxy label="//@net.0/@page.0/@object.24/@initialMarking"/>
         <labelProxy label="//@net.0/@page.0/@object.16/@inscription"/>
+        <labelProxy/>
       </toolspecific>
       <place id="p1">
         <graphics>
-          <position x="540.0" y="130.0"/>
+          <position x="735.0" y="95.0"/>
           <dimension x="40.0" y="40.0"/>
           <line shape="line" color="#b0b0b0" width="1.0"/>
           <fill color="#ffffff"/>
         </graphics>
         <initialMarking>
           <graphics>
-            <offset x="-75.0" y="-65.0"/>
+            <offset x="-35.0" y="80.0"/>
           </graphics>
           <structure>
             <token/>
@@ -265,7 +269,7 @@
       </place>
       <place id="p3">
         <graphics>
-          <position x="495.0" y="365.0"/>
+          <position x="560.0" y="305.0"/>
           <dimension x="40.0" y="40.0"/>
           <line shape="line" color="#b0b0b0" width="1.0"/>
           <fill color="#ffffff"/>
@@ -273,7 +277,7 @@
       </place>
       <place id="p2">
         <graphics>
-          <position x="595.0" y="250.0"/>
+          <position x="400.0" y="310.0"/>
           <dimension x="40.0" y="40.0"/>
           <line shape="line" color="#b0b0b0" width="1.0"/>
           <fill color="#ffffff"/>
@@ -282,12 +286,12 @@
       <transition id="t1">
         <name>
           <graphics>
-            <offset x="-120.0" y="-75.0"/>
+            <offset x="-50.0" y="-40.0"/>
           </graphics>
-          <text>Vak volgen</text>
+          <text>De rechtbank ingaan</text>
         </name>
         <graphics>
-          <position x="495.0" y="255.0"/>
+          <position x="580.0" y="200.0"/>
           <dimension x="40.0" y="40.0"/>
           <line shape="line" color="#b0b0b0" width="1.0"/>
           <fill color="#ffffff"/>
@@ -296,12 +300,12 @@
       <transition id="t2">
         <name>
           <graphics>
-            <offset x="-15.0" y="-40.0"/>
+            <offset x="20.0" y="35.0"/>
           </graphics>
-          <text>Leren</text>
+          <text>Bewijs indienen</text>
         </name>
         <graphics>
-          <position x="685.0" y="180.0"/>
+          <position x="375.0" y="430.0"/>
           <dimension x="40.0" y="40.0"/>
           <line shape="line" color="#b0b0b0" width="1.0"/>
           <fill color="#ffffff"/>
@@ -310,12 +314,12 @@
       <transition id="t3">
         <name>
           <graphics>
-            <offset x="-26.0" y="67.0"/>
+            <offset x="-55.0" y="-55.0"/>
           </graphics>
-          <text>Opdracht maken</text>
+          <text>Eind pleidooi geven</text>
         </name>
         <graphics>
-          <position x="676.0" y="363.0"/>
+          <position x="675.0" y="425.0"/>
           <dimension x="40.0" y="40.0"/>
           <line shape="line" color="#b0b0b0" width="1.0"/>
           <fill color="#ffffff"/>
@@ -324,41 +328,41 @@
       <arc source="p1" target="t1">
         <graphics>
           <line shape="line" color="#b0b0b0" width="1.0"/>
-          <position x="547.0" y="148.0"/>
-          <position x="547.0" y="155.0"/>
+          <position x="742.0" y="113.0"/>
+          <position x="742.0" y="120.0"/>
         </graphics>
       </arc>
       <arc source="t1" target="p3">
         <graphics>
           <line shape="line" color="#b0b0b0" width="1.0"/>
-          <position x="495.0" y="275.0"/>
-          <position x="495.0" y="300.0"/>
+          <position x="580.0" y="220.0"/>
+          <position x="580.0" y="245.0"/>
         </graphics>
       </arc>
       <arc source="p3" target="t3">
         <graphics>
           <line shape="line" color="#b0b0b0" width="1.0"/>
-          <position x="491.0" y="384.0"/>
-          <position x="489.0" y="415.0"/>
+          <position x="556.0" y="324.0"/>
+          <position x="554.0" y="355.0"/>
         </graphics>
       </arc>
       <arc id="t1" source="t1" target="p2">
         <graphics>
           <line shape="line" color="#b0b0b0" width="1.0"/>
-          <position x="515.0" y="250.0"/>
-          <position x="575.0" y="255.0"/>
+          <position x="600.0" y="202.0"/>
+          <position x="660.0" y="208.0"/>
         </graphics>
       </arc>
       <arc source="p2" target="t2">
         <graphics>
           <line shape="line" color="#b0b0b0" width="1.0"/>
-          <position x="587.0" y="268.0"/>
-          <position x="587.0" y="353.0"/>
+          <position x="392.0" y="328.0"/>
+          <position x="392.0" y="413.0"/>
         </graphics>
       </arc>
       <place id="p4">
         <graphics>
-          <position x="730.0" y="265.0"/>
+          <position x="540.0" y="425.0"/>
           <dimension x="40.0" y="40.0"/>
           <line shape="line" color="#b0b0b0" width="1.0"/>
           <fill color="#ffffff"/>
@@ -366,7 +370,7 @@
       </place>
       <place id="p5">
         <graphics>
-          <position x="765.0" y="310.0"/>
+          <position x="805.0" y="430.0"/>
           <dimension x="40.0" y="40.0"/>
           <line shape="line" color="#b0b0b0" width="1.0"/>
           <fill color="#ffffff"/>
@@ -374,7 +378,7 @@
       </place>
       <place id="p6">
         <graphics>
-          <position x="1015.0" y="320.0"/>
+          <position x="960.0" y="390.0"/>
           <dimension x="40.0" y="40.0"/>
           <line shape="line" color="#b0b0b0" width="1.0"/>
           <fill color="#ffffff"/>
@@ -383,12 +387,12 @@
       <transition id="t4">
         <name>
           <graphics>
-            <offset x="-5.0" y="-55.0"/>
+            <offset x="45.0" y="-10.0"/>
           </graphics>
-          <text>Tentamen doen</text>
+          <text>Vonnis aanhoren</text>
         </name>
         <graphics>
-          <position x="840.0" y="250.0"/>
+          <position x="695.0" y="535.0"/>
           <dimension x="40.0" y="40.0"/>
           <line shape="line" color="#b0b0b0" width="1.0"/>
           <fill color="#ffffff"/>
@@ -397,12 +401,12 @@
       <transition id="t5">
         <name>
           <graphics>
-            <offset x="72.0" y="14.0"/>
+            <offset x="-85.0" y="-50.0"/>
           </graphics>
-          <text>Hertentamen</text>
+          <text>Overleggen</text>
         </name>
         <graphics>
-          <position x="915.0" y="440.0"/>
+          <position x="820.0" y="345.0"/>
           <dimension x="40.0" y="40.0"/>
           <line shape="line" color="#b0b0b0" width="1.0"/>
           <fill color="#ffffff"/>
@@ -411,12 +415,12 @@
       <arc source="t2" target="p4">
         <graphics>
           <line shape="line" color="#b0b0b0" width="1.0"/>
-          <position x="693.0" y="183.0"/>
-          <position x="798.0" y="183.0"/>
+          <position x="383.0" y="433.0"/>
+          <position x="488.0" y="433.0"/>
         </graphics>
         <inscription>
           <graphics>
-            <offset x="33.0" y="23.0"/>
+            <offset x="40.0" y="-53.0"/>
           </graphics>
           <structure multiplicity="2"/>
           <text>2</text>
@@ -425,84 +429,82 @@
       <arc source="p4" target="t3">
         <graphics>
           <line shape="line" color="#b0b0b0" width="1.0"/>
-          <position x="746.0" y="253.0"/>
-          <position x="838.0" y="205.0"/>
+          <position x="556.0" y="413.0"/>
+          <position x="648.0" y="365.0"/>
         </graphics>
       </arc>
       <arc source="t3" target="p5">
         <graphics>
           <line shape="line" color="#b0b0b0" width="1.0"/>
-          <position x="696.0" y="366.0"/>
-          <position x="875.0" y="383.0"/>
+          <position x="695.0" y="428.0"/>
+          <position x="874.0" y="445.0"/>
         </graphics>
       </arc>
       <arc source="p4" target="t4">
         <graphics>
           <line shape="line" color="#b0b0b0" width="1.0"/>
-          <position x="749.0" y="259.0"/>
-          <position x="922.0" y="206.0"/>
+          <position x="559.0" y="419.0"/>
+          <position x="732.0" y="366.0"/>
         </graphics>
       </arc>
       <arc source="p5" target="t4">
         <graphics>
           <line shape="line" color="#b0b0b0" width="1.0"/>
-          <position x="761.0" y="329.0"/>
-          <position x="749.0" y="370.0"/>
+          <position x="801.0" y="449.0"/>
+          <position x="789.0" y="490.0"/>
         </graphics>
       </arc>
       <arc source="t4" target="p6">
         <graphics>
           <line shape="line" color="#b0b0b0" width="1.0"/>
-          <position x="860.0" y="258.0"/>
-          <position x="1042.0" y="274.0"/>
+          <position x="715.0" y="543.0"/>
+          <position x="897.0" y="559.0"/>
         </graphics>
       </arc>
       <arc source="p6" target="t5">
         <graphics>
           <line shape="line" color="#b0b0b0" width="1.0"/>
-          <position x="995.0" y="323.0"/>
-          <position x="890.0" y="340.0"/>
-          <position x="824.0" y="405.0"/>
+          <position x="941.0" y="382.0"/>
+          <position x="904.0" y="369.0"/>
+          <position x="880.0" y="377.0"/>
         </graphics>
       </arc>
       <arc source="t5" target="p6">
         <graphics>
           <line shape="line" color="#b0b0b0" width="1.0"/>
-          <position x="932.0" y="434.0"/>
-          <position x="1042.0" y="397.0"/>
-          <position x="1104.0" y="341.0"/>
+          <position x="837.0" y="349.0"/>
+          <position x="867.0" y="357.0"/>
+          <position x="897.0" y="337.0"/>
         </graphics>
       </arc>
       <place id="p7">
         <graphics>
-          <position x="800.0" y="450.0"/>
+          <position x="710.0" y="335.0"/>
           <dimension x="40.0" y="40.0"/>
           <line shape="line" color="#b0b0b0" width="1.0"/>
           <fill color="#ffffff"/>
         </graphics>
         <initialMarking>
           <graphics>
-            <offset x="25.0" y="60.0"/>
+            <offset x="-35.0" y="-25.0"/>
           </graphics>
           <structure>
             <token/>
             <token/>
             <token/>
-            <token/>
-            <token/>
           </structure>
-          <text>5</text>
+          <text>3</text>
         </initialMarking>
       </place>
       <transition id="t6">
         <name>
           <graphics>
-            <offset x="145.0" y="106.0"/>
+            <offset x="15.0" y="-60.0"/>
           </graphics>
-          <text>Vak afsluiten</text>
+          <text>Geschillenbeslechtiging aanvragen</text>
         </name>
         <graphics>
-          <position x="1035.0" y="135.0"/>
+          <position x="790.0" y="255.0"/>
           <dimension x="40.0" y="40.0"/>
           <line shape="line" color="#b0b0b0" width="1.0"/>
           <fill color="#ffffff"/>
@@ -511,22 +513,22 @@
       <arc source="p6" target="t6">
         <graphics>
           <line shape="line" color="#b0b0b0" width="1.0"/>
-          <position x="1021.0" y="301.0"/>
-          <position x="1043.0" y="222.0"/>
+          <position x="966.0" y="371.0"/>
+          <position x="988.0" y="292.0"/>
         </graphics>
       </arc>
       <arc source="p7" target="t5">
         <graphics>
           <line shape="line" color="#b0b0b0" width="1.0"/>
-          <position x="815.0" y="462.0"/>
-          <position x="877.0" y="530.0"/>
+          <position x="725.0" y="347.0"/>
+          <position x="787.0" y="415.0"/>
         </graphics>
       </arc>
       <arc source="t6" target="p1">
         <graphics>
           <line shape="line" color="#b0b0b0" width="1.0"/>
-          <position x="1015.0" y="130.0"/>
-          <position x="490.0" y="3.0"/>
+          <position x="770.0" y="250.0"/>
+          <position x="245.0" y="123.0"/>
         </graphics>
       </arc>
     </page>
