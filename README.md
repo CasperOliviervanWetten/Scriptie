@@ -103,6 +103,7 @@ The `"id"` value refers to the internal id of a state (so the first added state 
 
 ## TODO
 A todo list, as ordered and indicated by the MoSCoW system
+- **(m) Give an error if connected with a non-chromium browser!**
 - (m) better error handling
 - - 'name already exists'
 - - 'file error'
