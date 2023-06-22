@@ -115,6 +115,7 @@ A todo list, as ordered and indicated by the MoSCoW system
 - - less overlap labels/edges
 - - disable the 'mirorring' that happens going from eclipse -> CoRA
 - (m) improved label handling, dont use colons if there is no label
+- (s) Don't render self-loop at the same place of another self-loop
 - (s) Auto generate the reachability graph 
 - (s) Clean non-alphanumeric characters from transition/place names
 - (s) Clean non-alphanumeric characters from person names names
