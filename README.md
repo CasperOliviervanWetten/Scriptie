@@ -1,6 +1,8 @@
 # CoRA - Coverability Reachability Analyzer
 CoRA is een intelligent lesgeef systeem, gemikt op het helpen bij het maken van Coverability en Reachability graven voorPetri netten.
 
+[CoRA is findable at here](http://cora.architecturemining.org/)
+
 CoRA heeft een aantal praktische features wat het ideaal maakt voor het maken van Reach- en Coverability graven:
 - .lola bestand support
 - .pnml bestand support
